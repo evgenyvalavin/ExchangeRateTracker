@@ -1,0 +1,6 @@
+@TrueCodeTestTask.FinanceService_HostAddress = http://localhost:5106
+
+GET {{TrueCodeTestTask.FinanceService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

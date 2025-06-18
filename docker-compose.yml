@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: truecode-postgres
+    environment:
+      POSTGRES_DB: truecodedb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - truecode-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Database Migration Service
+  database-migration:
+    build:
+      context: .
+      dockerfile: src/DatabaseMigration/Dockerfile
+    container_name: truecode-db-migration
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - truecode-network
+
+  currency-service:
+    build:
+      context: .
+      dockerfile: src/CurrencyService/Dockerfile
+    container_name: truecode-currency-service
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+    depends_on:
+      - database-migration
+    networks:
+      - truecode-network
+
+  user-service:
+    build:
+      context: .
+      dockerfile: src/UserService/Dockerfile
+    container_name: truecode-user-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+      - JWT__SecretKey=your-super-secret-jwt-key-here-make-it-long-and-secure
+      - JWT__Issuer=TrueCodeTestTask
+      - JWT__Audience=TrueCodeTestTask
+    ports:
+      - "8081:8080"
+    depends_on:
+      - database-migration
+    networks:
+      - truecode-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  finance-service:
+    build:
+      context: .
+      dockerfile: src/FinanceService/Dockerfile
+    container_name: truecode-finance-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+      - JWT__SecretKey=your-super-secret-jwt-key-here-make-it-long-and-secure
+      - JWT__Issuer=TrueCodeTestTask
+      - JWT__Audience=TrueCodeTestTask
+    ports:
+      - "8082:8080"
+    depends_on:
+      - database-migration
+    networks:
+      - truecode-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: src/ApiGateway/Dockerfile
+    container_name: truecode-api-gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - UserService__BaseUrl=http://user-service:8080
+      - FinanceService__BaseUrl=http://finance-service:8080
+      - CurrencyService__BaseUrl=http://currency-service:8080
+      - JWT__SecretKey=your-super-secret-jwt-key-here-make-it-long-and-secure
+      - JWT__Issuer=TrueCodeTestTask
+      - JWT__Audience=TrueCodeTestTask
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - finance-service
+    networks:
+      - truecode-network
+
+volumes:
+  postgres_data:
+
+networks:
+  truecode-network:
+    driver: bridge

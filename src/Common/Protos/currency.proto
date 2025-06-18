@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option csharp_namespace = "TrueCodeTestTask.Common.Grpc";
+
+package currency;
+
+// Currency service
+service CurrencyService {
+  rpc GetAllCurrencies (GetAllCurrenciesRequest) returns (CurrencyListResponse);
+  rpc GetUserFavoriteCurrencies (GetUserFavoriteCurrenciesRequest) returns (CurrencyListResponse);
+  rpc AddFavoriteCurrency (AddFavoriteCurrencyRequest) returns (FavoriteCurrencyResponse);
+  rpc RemoveFavoriteCurrency (RemoveFavoriteCurrencyRequest) returns (FavoriteCurrencyResponse);
+}
+
+// Request messages
+message GetAllCurrenciesRequest {
+  string token = 1;
+}
+
+message GetUserFavoriteCurrenciesRequest {
+  string token = 1;
+  int32 user_id = 2;
+}
+
+message AddFavoriteCurrencyRequest {
+  string token = 1;
+  int32 user_id = 2;
+  int32 currency_id = 3;
+}
+
+message RemoveFavoriteCurrencyRequest {
+  string token = 1;
+  int32 user_id = 2;
+  int32 currency_id = 3;
+}
+
+// Response messages
+message CurrencyListResponse {
+  bool success = 1;
+  string message = 2;
+  repeated CurrencyInfo currencies = 3;
+}
+
+message FavoriteCurrencyResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Data models
+message CurrencyInfo {
+  int32 id = 1;
+  string name = 2;
+  double rate = 3;
+  string updated_at = 4;
+}

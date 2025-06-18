@@ -1,0 +1,6 @@
+@TrueCodeTestTask.ApiGateway_HostAddress = http://localhost:5123
+
+GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option csharp_namespace = "TrueCodeTestTask.Common.Grpc";
+
+package auth;
+
+// Authentication service
+service AuthService {
+  rpc Register (RegisterRequest) returns (AuthResponse);
+  rpc Login (LoginRequest) returns (AuthResponse);
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+  rpc GetUserInfo (GetUserInfoRequest) returns (UserInfoResponse);
+}
+
+// Request messages
+message RegisterRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message LoginRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message GetUserInfoRequest {
+  string token = 1;
+}
+
+// Response messages
+message AuthResponse {
+  bool success = 1;
+  string message = 2;
+  string token = 3;
+  UserInfo user = 4;
+}
+
+message ValidateTokenResponse {
+  bool is_valid = 1;
+  int32 user_id = 2;
+  string user_name = 3;
+}
+
+message UserInfoResponse {
+  bool success = 1;
+  string message = 2;
+  UserInfo user = 3;
+}
+
+// Data models
+message UserInfo {
+  int32 id = 1;
+  string name = 2;
+  string created_at = 3;
+}
