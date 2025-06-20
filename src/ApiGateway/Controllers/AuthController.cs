@@ -6,18 +6,8 @@ namespace TrueCodeTestTask.ApiGateway.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(ProxyService proxyService, IConfiguration configuration, ILogger<AuthController> logger) : ControllerBase
 {
-    private readonly ProxyService _proxyService;
-    private readonly IConfiguration _configuration;
-    private readonly ILogger<AuthController> _logger;
-
-    public AuthController(ProxyService proxyService, IConfiguration configuration, ILogger<AuthController> logger)
-    {
-        _proxyService = proxyService;
-        _configuration = configuration;
-        _logger = logger;
-    }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
@@ -27,21 +17,21 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var userServiceUrl = _configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
+        var userServiceUrl = configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
         var targetUrl = $"{userServiceUrl}/api/auth/register";
 
         try
         {
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post,
                 System.Text.Json.JsonSerializer.Serialize(request));
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding register request");
+            logger.LogError(ex, "Error forwarding register request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }
@@ -54,21 +44,21 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var userServiceUrl = _configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
+        var userServiceUrl = configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
         var targetUrl = $"{userServiceUrl}/api/auth/login";
 
         try
         {
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post,
                 System.Text.Json.JsonSerializer.Serialize(request));
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding login request");
+            logger.LogError(ex, "Error forwarding login request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }
@@ -82,22 +72,22 @@ public class AuthController : ControllerBase
             return BadRequest(new { message = "Authorization header is required" });
         }
 
-        var userServiceUrl = _configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
+        var userServiceUrl = configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
         var targetUrl = $"{userServiceUrl}/api/auth/logout";
 
         try
         {
             var token = authHeader.Split(" ").Last();
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post,
                 authToken: token);
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding logout request");
+            logger.LogError(ex, "Error forwarding logout request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }
@@ -111,22 +101,22 @@ public class AuthController : ControllerBase
             return BadRequest(new { message = "Authorization header is required" });
         }
 
-        var userServiceUrl = _configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
+        var userServiceUrl = configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
         var targetUrl = $"{userServiceUrl}/api/auth/me";
 
         try
         {
             var token = authHeader.Split(" ").Last();
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Get, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Get,
                 authToken: token);
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding get current user request");
+            logger.LogError(ex, "Error forwarding get current user request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }

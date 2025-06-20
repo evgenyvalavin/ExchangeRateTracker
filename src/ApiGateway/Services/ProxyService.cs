@@ -3,21 +3,13 @@ using System.Text.Json;
 
 namespace TrueCodeTestTask.ApiGateway.Services;
 
-public class ProxyService
+public class ProxyService(HttpClient httpClient, ILogger<ProxyService> logger)
 {
-    private readonly HttpClient _httpClient;
-    private readonly ILogger<ProxyService> _logger;
-
-    public ProxyService(HttpClient httpClient, ILogger<ProxyService> logger)
-    {
-        _httpClient = httpClient;
-        _logger = logger;
-    }
 
     public async Task<HttpResponseMessage> ForwardRequestAsync(
-        string targetUrl, 
-        HttpMethod method, 
-        string? content = null, 
+        string targetUrl,
+        HttpMethod method,
+        string? content = null,
         string? authToken = null,
         string? contentType = "application/json")
     {
@@ -37,25 +29,25 @@ public class ProxyService
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
             }
 
-            _logger.LogInformation("Forwarding {Method} request to {Url}", method, targetUrl);
+            logger.LogInformation("Forwarding {Method} request to {Url}", method, targetUrl);
 
-            var response = await _httpClient.SendAsync(request);
-            
-            _logger.LogInformation("Received response {StatusCode} from {Url}", response.StatusCode, targetUrl);
-            
+            var response = await httpClient.SendAsync(request);
+
+            logger.LogInformation("Received response {StatusCode} from {Url}", response.StatusCode, targetUrl);
+
             return response;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding request to {Url}", targetUrl);
+            logger.LogError(ex, "Error forwarding request to {Url}", targetUrl);
             throw;
         }
     }
 
     public async Task<T?> ForwardRequestAsync<T>(
-        string targetUrl, 
-        HttpMethod method, 
-        object? requestBody = null, 
+        string targetUrl,
+        HttpMethod method,
+        object? requestBody = null,
         string? authToken = null)
     {
         try
@@ -67,7 +59,7 @@ public class ProxyService
             }
 
             var response = await ForwardRequestAsync(targetUrl, method, content, authToken);
-            
+
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
@@ -81,7 +73,7 @@ public class ProxyService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding request to {Url}", targetUrl);
+            logger.LogError(ex, "Error forwarding request to {Url}", targetUrl);
             return default(T);
         }
     }

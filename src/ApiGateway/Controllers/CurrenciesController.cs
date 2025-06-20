@@ -6,18 +6,8 @@ namespace TrueCodeTestTask.ApiGateway.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CurrenciesController : ControllerBase
+public class CurrenciesController(ProxyService proxyService, IConfiguration configuration, ILogger<CurrenciesController> logger) : ControllerBase
 {
-    private readonly ProxyService _proxyService;
-    private readonly IConfiguration _configuration;
-    private readonly ILogger<CurrenciesController> _logger;
-
-    public CurrenciesController(ProxyService proxyService, IConfiguration configuration, ILogger<CurrenciesController> logger)
-    {
-        _proxyService = proxyService;
-        _configuration = configuration;
-        _logger = logger;
-    }
 
     [HttpGet]
     public async Task<IActionResult> GetAllCurrencies()
@@ -28,22 +18,22 @@ public class CurrenciesController : ControllerBase
             return Unauthorized(new { message = "Authorization header is required" });
         }
 
-        var financeServiceUrl = _configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
+        var financeServiceUrl = configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
         var targetUrl = $"{financeServiceUrl}/api/currencies";
 
         try
         {
             var token = authHeader.Split(" ").Last();
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Get, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Get,
                 authToken: token);
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding get currencies request");
+            logger.LogError(ex, "Error forwarding get currencies request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }
@@ -57,22 +47,22 @@ public class CurrenciesController : ControllerBase
             return Unauthorized(new { message = "Authorization header is required" });
         }
 
-        var financeServiceUrl = _configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
+        var financeServiceUrl = configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
         var targetUrl = $"{financeServiceUrl}/api/currencies/favorites";
 
         try
         {
             var token = authHeader.Split(" ").Last();
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Get, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Get,
                 authToken: token);
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding get favorite currencies request");
+            logger.LogError(ex, "Error forwarding get favorite currencies request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }
@@ -91,22 +81,22 @@ public class CurrenciesController : ControllerBase
             return Unauthorized(new { message = "Authorization header is required" });
         }
 
-        var financeServiceUrl = _configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
+        var financeServiceUrl = configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
         var targetUrl = $"{financeServiceUrl}/api/currencies/favorites";
 
         try
         {
             var token = authHeader.Split(" ").Last();
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Post,
                 System.Text.Json.JsonSerializer.Serialize(request), token);
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding add favorite currency request");
+            logger.LogError(ex, "Error forwarding add favorite currency request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }
@@ -120,22 +110,22 @@ public class CurrenciesController : ControllerBase
             return Unauthorized(new { message = "Authorization header is required" });
         }
 
-        var financeServiceUrl = _configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
+        var financeServiceUrl = configuration["FinanceService:BaseUrl"] ?? "http://finance-service:8080";
         var targetUrl = $"{financeServiceUrl}/api/currencies/favorites/{currencyId}";
 
         try
         {
             var token = authHeader.Split(" ").Last();
-            var response = await _proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Delete, 
+            var response = await proxyService.ForwardRequestAsync(targetUrl, HttpMethod.Delete,
                 authToken: token);
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             return StatusCode((int)response.StatusCode, content);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error forwarding remove favorite currency request");
+            logger.LogError(ex, "Error forwarding remove favorite currency request");
             return StatusCode(500, new { message = "Internal server error" });
         }
     }

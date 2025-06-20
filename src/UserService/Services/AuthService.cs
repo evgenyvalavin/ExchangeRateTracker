@@ -4,31 +4,19 @@ using TrueCodeTestTask.Common.Models;
 
 namespace TrueCodeTestTask.UserService.Services;
 
-public class AuthService : IAuthService
+public class AuthService(
+    IUserRepository userRepository,
+    IPasswordService passwordService,
+    IJwtService jwtService,
+    ILogger<AuthService> logger) : IAuthService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordService _passwordService;
-    private readonly IJwtService _jwtService;
-    private readonly ILogger<AuthService> _logger;
-
-    public AuthService(
-        IUserRepository userRepository,
-        IPasswordService passwordService,
-        IJwtService jwtService,
-        ILogger<AuthService> logger)
-    {
-        _userRepository = userRepository;
-        _passwordService = passwordService;
-        _jwtService = jwtService;
-        _logger = logger;
-    }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
         try
         {
             // Check if user already exists
-            if (await _userRepository.ExistsAsync(request.Name))
+            if (await userRepository.ExistsAsync(request.Name))
             {
                 return new AuthResponse
                 {
@@ -41,16 +29,16 @@ public class AuthService : IAuthService
             var user = new User
             {
                 Name = request.Name,
-                Password = _passwordService.HashPassword(request.Password),
+                Password = passwordService.HashPassword(request.Password),
                 CreatedAt = DateTime.UtcNow
             };
 
-            var createdUser = await _userRepository.CreateAsync(user);
+            var createdUser = await userRepository.CreateAsync(user);
 
             // Generate JWT token
-            var token = _jwtService.GenerateToken(createdUser.Id, createdUser.Name);
+            var token = jwtService.GenerateToken(createdUser.Id, createdUser.Name);
 
-            _logger.LogInformation("User {UserName} registered successfully", request.Name);
+            logger.LogInformation("User {UserName} registered successfully", request.Name);
 
             return new AuthResponse
             {
@@ -67,7 +55,7 @@ public class AuthService : IAuthService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error registering user {UserName}", request.Name);
+            logger.LogError(ex, "Error registering user {UserName}", request.Name);
             return new AuthResponse
             {
                 Success = false,
@@ -80,7 +68,7 @@ public class AuthService : IAuthService
     {
         try
         {
-            var user = await _userRepository.GetByNameAsync(request.Name);
+            var user = await userRepository.GetByNameAsync(request.Name);
             if (user == null)
             {
                 return new AuthResponse
@@ -90,7 +78,7 @@ public class AuthService : IAuthService
                 };
             }
 
-            if (!_passwordService.VerifyPassword(request.Password, user.Password))
+            if (!passwordService.VerifyPassword(request.Password, user.Password))
             {
                 return new AuthResponse
                 {
@@ -100,9 +88,9 @@ public class AuthService : IAuthService
             }
 
             // Generate JWT token
-            var token = _jwtService.GenerateToken(user.Id, user.Name);
+            var token = jwtService.GenerateToken(user.Id, user.Name);
 
-            _logger.LogInformation("User {UserName} logged in successfully", request.Name);
+            logger.LogInformation("User {UserName} logged in successfully", request.Name);
 
             return new AuthResponse
             {
@@ -119,7 +107,7 @@ public class AuthService : IAuthService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error logging in user {UserName}", request.Name);
+            logger.LogError(ex, "Error logging in user {UserName}", request.Name);
             return new AuthResponse
             {
                 Success = false,
@@ -134,7 +122,7 @@ public class AuthService : IAuthService
         {
             // In a real application, you might want to blacklist the token
             // For now, we'll just return success
-            _logger.LogInformation("User logged out successfully");
+            logger.LogInformation("User logged out successfully");
 
             return new AuthResponse
             {
@@ -144,7 +132,7 @@ public class AuthService : IAuthService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during logout");
+            logger.LogError(ex, "Error during logout");
             return new AuthResponse
             {
                 Success = false,

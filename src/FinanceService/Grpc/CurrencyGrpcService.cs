@@ -4,25 +4,15 @@ using TrueCodeTestTask.Common.Interfaces;
 
 namespace TrueCodeTestTask.FinanceService.Grpc;
 
-public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
+public class CurrencyGrpcService(ICurrencyService currencyService, IJwtService jwtService, ILogger<CurrencyGrpcService> logger) : CurrencyService.CurrencyServiceBase
 {
-    private readonly ICurrencyService _currencyService;
-    private readonly IJwtService _jwtService;
-    private readonly ILogger<CurrencyGrpcService> _logger;
-
-    public CurrencyGrpcService(ICurrencyService currencyService, IJwtService jwtService, ILogger<CurrencyGrpcService> logger)
-    {
-        _currencyService = currencyService;
-        _jwtService = jwtService;
-        _logger = logger;
-    }
 
     public override async Task<CurrencyListResponse> GetAllCurrencies(GetAllCurrenciesRequest request, ServerCallContext context)
     {
         try
         {
             // Validate token
-            if (!_jwtService.ValidateToken(request.Token))
+            if (!jwtService.ValidateToken(request.Token))
             {
                 return new CurrencyListResponse
                 {
@@ -31,7 +21,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
                 };
             }
 
-            var result = await _currencyService.GetAllCurrenciesAsync();
+            var result = await currencyService.GetAllCurrenciesAsync();
 
             var response = new CurrencyListResponse
             {
@@ -54,7 +44,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC GetAllCurrencies method");
+            logger.LogError(ex, "Error in gRPC GetAllCurrencies method");
             return new CurrencyListResponse
             {
                 Success = false,
@@ -68,7 +58,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         try
         {
             // Validate token
-            if (!_jwtService.ValidateToken(request.Token))
+            if (!jwtService.ValidateToken(request.Token))
             {
                 return new CurrencyListResponse
                 {
@@ -77,7 +67,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
                 };
             }
 
-            var result = await _currencyService.GetUserFavoriteCurrenciesAsync(request.UserId);
+            var result = await currencyService.GetUserFavoriteCurrenciesAsync(request.UserId);
 
             var response = new CurrencyListResponse
             {
@@ -100,7 +90,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC GetUserFavoriteCurrencies method");
+            logger.LogError(ex, "Error in gRPC GetUserFavoriteCurrencies method");
             return new CurrencyListResponse
             {
                 Success = false,
@@ -114,7 +104,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         try
         {
             // Validate token
-            if (!_jwtService.ValidateToken(request.Token))
+            if (!jwtService.ValidateToken(request.Token))
             {
                 return new FavoriteCurrencyResponse
                 {
@@ -123,7 +113,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
                 };
             }
 
-            var success = await _currencyService.AddFavoriteCurrencyAsync(request.UserId, request.CurrencyId);
+            var success = await currencyService.AddFavoriteCurrencyAsync(request.UserId, request.CurrencyId);
 
             return new FavoriteCurrencyResponse
             {
@@ -133,7 +123,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC AddFavoriteCurrency method");
+            logger.LogError(ex, "Error in gRPC AddFavoriteCurrency method");
             return new FavoriteCurrencyResponse
             {
                 Success = false,
@@ -147,7 +137,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         try
         {
             // Validate token
-            if (!_jwtService.ValidateToken(request.Token))
+            if (!jwtService.ValidateToken(request.Token))
             {
                 return new FavoriteCurrencyResponse
                 {
@@ -156,7 +146,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
                 };
             }
 
-            var success = await _currencyService.RemoveFavoriteCurrencyAsync(request.UserId, request.CurrencyId);
+            var success = await currencyService.RemoveFavoriteCurrencyAsync(request.UserId, request.CurrencyId);
 
             return new FavoriteCurrencyResponse
             {
@@ -166,7 +156,7 @@ public class CurrencyGrpcService : CurrencyService.CurrencyServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC RemoveFavoriteCurrency method");
+            logger.LogError(ex, "Error in gRPC RemoveFavoriteCurrency method");
             return new FavoriteCurrencyResponse
             {
                 Success = false,

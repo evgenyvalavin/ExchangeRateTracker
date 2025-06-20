@@ -6,28 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TrueCodeTestTask.CurrencyService.Services;
 
-public class CbrCurrencyService
+public class CbrCurrencyService(HttpClient httpClient, ApplicationDbContext context, ILogger<CbrCurrencyService> logger)
 {
-    private readonly HttpClient _httpClient;
-    private readonly ApplicationDbContext _context;
-    private readonly ILogger<CbrCurrencyService> _logger;
     private const string CbrUrl = "http://www.cbr.ru/scripts/XML_daily.asp";
-
-    public CbrCurrencyService(HttpClient httpClient, ApplicationDbContext context, ILogger<CbrCurrencyService> logger)
-    {
-        _httpClient = httpClient;
-        _context = context;
-        _logger = logger;
-    }
 
     public async Task UpdateCurrencyRatesAsync()
     {
         try
         {
-            _logger.LogInformation("Starting currency rates update from CBR...");
+            logger.LogInformation("Starting currency rates update from CBR...");
 
             // CBR returns data in windows-1251 encoding, need to handle it properly
-            var responseBytes = await _httpClient.GetByteArrayAsync(CbrUrl);
+            var responseBytes = await httpClient.GetByteArrayAsync(CbrUrl);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var encoding = Encoding.GetEncoding("windows-1251");
             var response = encoding.GetString(responseBytes);
@@ -36,16 +26,16 @@ public class CbrCurrencyService
             if (currencies.Any())
             {
                 await UpdateDatabaseAsync(currencies);
-                _logger.LogInformation("Successfully updated {Count} currency rates", currencies.Count);
+                logger.LogInformation("Successfully updated {Count} currency rates", currencies.Count);
             }
             else
             {
-                _logger.LogWarning("No currencies found in CBR response");
+                logger.LogWarning("No currencies found in CBR response");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating currency rates from CBR");
+            logger.LogError(ex, "Error updating currency rates from CBR");
             throw;
         }
     }
@@ -88,7 +78,7 @@ public class CbrCurrencyService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error parsing CBR XML response");
+            logger.LogError(ex, "Error parsing CBR XML response");
             throw;
         }
 
@@ -97,12 +87,12 @@ public class CbrCurrencyService
 
     private async Task UpdateDatabaseAsync(List<Currency> currencies)
     {
-        using var transaction = await _context.Database.BeginTransactionAsync();
+        using var transaction = await context.Database.BeginTransactionAsync();
         try
         {
             foreach (var currency in currencies)
             {
-                var existingCurrency = await _context.Currencies
+                var existingCurrency = await context.Currencies
                     .FirstOrDefaultAsync(c => c.Name == currency.Name);
 
                 if (existingCurrency != null)
@@ -112,11 +102,11 @@ public class CbrCurrencyService
                 }
                 else
                 {
-                    _context.Currencies.Add(currency);
+                    context.Currencies.Add(currency);
                 }
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             await transaction.CommitAsync();
         }
         catch

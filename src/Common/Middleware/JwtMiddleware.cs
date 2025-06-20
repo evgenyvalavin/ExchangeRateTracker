@@ -7,16 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace TrueCodeTestTask.Common.Middleware;
 
-public class JwtMiddleware
+public class JwtMiddleware(RequestDelegate next, IConfiguration configuration)
 {
-    private readonly RequestDelegate _next;
-    private readonly IConfiguration _configuration;
-
-    public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
-    {
-        _next = next;
-        _configuration = configuration;
-    }
 
     public async Task Invoke(HttpContext context)
     {
@@ -27,7 +19,7 @@ public class JwtMiddleware
             AttachUserToContext(context, token);
         }
 
-        await _next(context);
+        await next(context);
     }
 
     private void AttachUserToContext(HttpContext context, string token)
@@ -35,16 +27,16 @@ public class JwtMiddleware
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JWT:SecretKey"] ?? "your-super-secret-jwt-key-here-make-it-long-and-secure");
+            var key = Encoding.ASCII.GetBytes(configuration["JWT:SecretKey"] ?? "your-super-secret-jwt-key-here-make-it-long-and-secure");
 
             tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["JWT:Issuer"] ?? "TrueCodeTestTask",
+                ValidIssuer = configuration["JWT:Issuer"] ?? "TrueCodeTestTask",
                 ValidateAudience = true,
-                ValidAudience = _configuration["JWT:Audience"] ?? "TrueCodeTestTask",
+                ValidAudience = configuration["JWT:Audience"] ?? "TrueCodeTestTask",
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);

@@ -3,28 +3,18 @@ using TrueCodeTestTask.Common.Interfaces;
 
 namespace TrueCodeTestTask.FinanceService.Services;
 
-public class CurrencyService : ICurrencyService
+public class CurrencyService(
+    ICurrencyRepository currencyRepository,
+    IUserRepository userRepository,
+    ILogger<CurrencyService> logger) : ICurrencyService
 {
-    private readonly ICurrencyRepository _currencyRepository;
-    private readonly IUserRepository _userRepository;
-    private readonly ILogger<CurrencyService> _logger;
-
-    public CurrencyService(
-        ICurrencyRepository currencyRepository,
-        IUserRepository userRepository,
-        ILogger<CurrencyService> logger)
-    {
-        _currencyRepository = currencyRepository;
-        _userRepository = userRepository;
-        _logger = logger;
-    }
 
     public async Task<CurrencyResponse> GetAllCurrenciesAsync()
     {
         try
         {
-            var currencies = await _currencyRepository.GetAllAsync();
-            
+            var currencies = await currencyRepository.GetAllAsync();
+
             return new CurrencyResponse
             {
                 Success = true,
@@ -40,7 +30,7 @@ public class CurrencyService : ICurrencyService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving currencies");
+            logger.LogError(ex, "Error retrieving currencies");
             return new CurrencyResponse
             {
                 Success = false,
@@ -53,8 +43,8 @@ public class CurrencyService : ICurrencyService
     {
         try
         {
-            var favoriteCurrencies = await _userRepository.GetFavoriteCurrenciesAsync(userId);
-            
+            var favoriteCurrencies = await userRepository.GetFavoriteCurrenciesAsync(userId);
+
             return new CurrencyResponse
             {
                 Success = true,
@@ -70,7 +60,7 @@ public class CurrencyService : ICurrencyService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving favorite currencies for user {UserId}", userId);
+            logger.LogError(ex, "Error retrieving favorite currencies for user {UserId}", userId);
             return new CurrencyResponse
             {
                 Success = false,
@@ -84,28 +74,28 @@ public class CurrencyService : ICurrencyService
         try
         {
             // Check if currency exists
-            var currency = await _currencyRepository.GetByIdAsync(currencyId);
+            var currency = await currencyRepository.GetByIdAsync(currencyId);
             if (currency == null)
             {
-                _logger.LogWarning("Currency with ID {CurrencyId} not found", currencyId);
+                logger.LogWarning("Currency with ID {CurrencyId} not found", currencyId);
                 return false;
             }
 
             // Check if user exists
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await userRepository.GetByIdAsync(userId);
             if (user == null)
             {
-                _logger.LogWarning("User with ID {UserId} not found", userId);
+                logger.LogWarning("User with ID {UserId} not found", userId);
                 return false;
             }
 
-            await _userRepository.AddFavoriteCurrencyAsync(userId, currencyId);
-            _logger.LogInformation("Added currency {CurrencyId} to favorites for user {UserId}", currencyId, userId);
+            await userRepository.AddFavoriteCurrencyAsync(userId, currencyId);
+            logger.LogInformation("Added currency {CurrencyId} to favorites for user {UserId}", currencyId, userId);
             return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding favorite currency {CurrencyId} for user {UserId}", currencyId, userId);
+            logger.LogError(ex, "Error adding favorite currency {CurrencyId} for user {UserId}", currencyId, userId);
             return false;
         }
     }
@@ -114,13 +104,13 @@ public class CurrencyService : ICurrencyService
     {
         try
         {
-            await _userRepository.RemoveFavoriteCurrencyAsync(userId, currencyId);
-            _logger.LogInformation("Removed currency {CurrencyId} from favorites for user {UserId}", currencyId, userId);
+            await userRepository.RemoveFavoriteCurrencyAsync(userId, currencyId);
+            logger.LogInformation("Removed currency {CurrencyId} from favorites for user {UserId}", currencyId, userId);
             return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error removing favorite currency {CurrencyId} for user {UserId}", currencyId, userId);
+            logger.LogError(ex, "Error removing favorite currency {CurrencyId} for user {UserId}", currencyId, userId);
             return false;
         }
     }

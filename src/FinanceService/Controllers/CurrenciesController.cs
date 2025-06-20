@@ -8,22 +8,14 @@ namespace TrueCodeTestTask.FinanceService.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class CurrenciesController : ControllerBase
+public class CurrenciesController(ICurrencyService currencyService, ILogger<CurrenciesController> logger) : ControllerBase
 {
-    private readonly ICurrencyService _currencyService;
-    private readonly ILogger<CurrenciesController> _logger;
-
-    public CurrenciesController(ICurrencyService currencyService, ILogger<CurrenciesController> logger)
-    {
-        _currencyService = currencyService;
-        _logger = logger;
-    }
 
     [HttpGet]
     public async Task<ActionResult<CurrencyResponse>> GetAllCurrencies()
     {
-        var result = await _currencyService.GetAllCurrenciesAsync();
-        
+        var result = await currencyService.GetAllCurrenciesAsync();
+
         if (result.Success)
         {
             return Ok(result);
@@ -36,7 +28,7 @@ public class CurrenciesController : ControllerBase
     public async Task<ActionResult<CurrencyResponse>> GetFavoriteCurrencies()
     {
         var userIdClaim = User.FindFirst("userId")?.Value;
-        
+
         if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized(new CurrencyResponse
@@ -46,8 +38,8 @@ public class CurrenciesController : ControllerBase
             });
         }
 
-        var result = await _currencyService.GetUserFavoriteCurrenciesAsync(userId);
-        
+        var result = await currencyService.GetUserFavoriteCurrenciesAsync(userId);
+
         if (result.Success)
         {
             return Ok(result);
@@ -65,14 +57,14 @@ public class CurrenciesController : ControllerBase
         }
 
         var userIdClaim = User.FindFirst("userId")?.Value;
-        
+
         if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized(new { message = "Invalid user token" });
         }
 
-        var success = await _currencyService.AddFavoriteCurrencyAsync(userId, request.CurrencyId);
-        
+        var success = await currencyService.AddFavoriteCurrencyAsync(userId, request.CurrencyId);
+
         if (success)
         {
             return Ok(new { message = "Currency added to favorites successfully" });
@@ -85,14 +77,14 @@ public class CurrenciesController : ControllerBase
     public async Task<ActionResult> RemoveFavoriteCurrency(int currencyId)
     {
         var userIdClaim = User.FindFirst("userId")?.Value;
-        
+
         if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized(new { message = "Invalid user token" });
         }
 
-        var success = await _currencyService.RemoveFavoriteCurrencyAsync(userId, currencyId);
-        
+        var success = await currencyService.RemoveFavoriteCurrencyAsync(userId, currencyId);
+
         if (success)
         {
             return Ok(new { message = "Currency removed from favorites successfully" });

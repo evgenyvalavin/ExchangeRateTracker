@@ -2,21 +2,13 @@ using TrueCodeTestTask.CurrencyService.Services;
 
 namespace TrueCodeTestTask.CurrencyService;
 
-public class Worker : BackgroundService
+public class Worker(ILogger<Worker> logger, IServiceProvider serviceProvider) : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
-    private readonly IServiceProvider _serviceProvider;
     private readonly TimeSpan _updateInterval = TimeSpan.FromHours(1); // Update every hour
-
-    public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
-    {
-        _logger = logger;
-        _serviceProvider = serviceProvider;
-    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Currency Service Worker started");
+        logger.LogInformation("Currency Service Worker started");
 
         // Initial update
         await UpdateCurrencies();
@@ -30,12 +22,12 @@ public class Worker : BackgroundService
             }
             catch (OperationCanceledException)
             {
-                _logger.LogInformation("Currency Service Worker is stopping");
+                logger.LogInformation("Currency Service Worker is stopping");
                 break;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in Currency Service Worker");
+                logger.LogError(ex, "Error in Currency Service Worker");
                 // Continue running even if there's an error
                 await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }
@@ -44,17 +36,17 @@ public class Worker : BackgroundService
 
     private async Task UpdateCurrencies()
     {
-        using var scope = _serviceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope();
         var currencyService = scope.ServiceProvider.GetRequiredService<CbrCurrencyService>();
 
         try
         {
             await currencyService.UpdateCurrencyRatesAsync();
-            _logger.LogInformation("Currency rates updated successfully at {Time}", DateTime.UtcNow);
+            logger.LogInformation("Currency rates updated successfully at {Time}", DateTime.UtcNow);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to update currency rates");
+            logger.LogError(ex, "Failed to update currency rates");
         }
     }
 }

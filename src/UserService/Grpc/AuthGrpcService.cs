@@ -5,18 +5,8 @@ using TrueCodeTestTask.Common.Interfaces;
 
 namespace TrueCodeTestTask.UserService.Grpc;
 
-public class AuthGrpcService : AuthService.AuthServiceBase
+public class AuthGrpcService(IAuthService authService, IJwtService jwtService, ILogger<AuthGrpcService> logger) : AuthService.AuthServiceBase
 {
-    private readonly IAuthService _authService;
-    private readonly IJwtService _jwtService;
-    private readonly ILogger<AuthGrpcService> _logger;
-
-    public AuthGrpcService(IAuthService authService, IJwtService jwtService, ILogger<AuthGrpcService> logger)
-    {
-        _authService = authService;
-        _jwtService = jwtService;
-        _logger = logger;
-    }
 
     public override async Task<Common.Grpc.AuthResponse> Register(Common.Grpc.RegisterRequest request, ServerCallContext context)
     {
@@ -28,7 +18,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
                 Password = request.Password
             };
 
-            var result = await _authService.RegisterAsync(registerDto);
+            var result = await authService.RegisterAsync(registerDto);
 
             return new Common.Grpc.AuthResponse
             {
@@ -45,7 +35,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC Register method");
+            logger.LogError(ex, "Error in gRPC Register method");
             return new Common.Grpc.AuthResponse
             {
                 Success = false,
@@ -64,7 +54,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
                 Password = request.Password
             };
 
-            var result = await _authService.LoginAsync(loginDto);
+            var result = await authService.LoginAsync(loginDto);
 
             return new Common.Grpc.AuthResponse
             {
@@ -81,7 +71,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC Login method");
+            logger.LogError(ex, "Error in gRPC Login method");
             return new Common.Grpc.AuthResponse
             {
                 Success = false,
@@ -94,9 +84,9 @@ public class AuthGrpcService : AuthService.AuthServiceBase
     {
         try
         {
-            var isValid = _jwtService.ValidateToken(request.Token);
-            var userId = _jwtService.GetUserIdFromToken(request.Token);
-            var userName = _jwtService.GetUserNameFromToken(request.Token);
+            var isValid = jwtService.ValidateToken(request.Token);
+            var userId = jwtService.GetUserIdFromToken(request.Token);
+            var userName = jwtService.GetUserNameFromToken(request.Token);
 
             return Task.FromResult(new ValidateTokenResponse
             {
@@ -107,7 +97,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC ValidateToken method");
+            logger.LogError(ex, "Error in gRPC ValidateToken method");
             return Task.FromResult(new ValidateTokenResponse
             {
                 IsValid = false,
@@ -121,7 +111,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
     {
         try
         {
-            var isValid = _jwtService.ValidateToken(request.Token);
+            var isValid = jwtService.ValidateToken(request.Token);
             if (!isValid)
             {
                 return Task.FromResult(new UserInfoResponse
@@ -131,8 +121,8 @@ public class AuthGrpcService : AuthService.AuthServiceBase
                 });
             }
 
-            var userId = _jwtService.GetUserIdFromToken(request.Token);
-            var userName = _jwtService.GetUserNameFromToken(request.Token);
+            var userId = jwtService.GetUserIdFromToken(request.Token);
+            var userName = jwtService.GetUserNameFromToken(request.Token);
 
             if (userId.HasValue && !string.IsNullOrEmpty(userName))
             {
@@ -157,7 +147,7 @@ public class AuthGrpcService : AuthService.AuthServiceBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in gRPC GetUserInfo method");
+            logger.LogError(ex, "Error in gRPC GetUserInfo method");
             return Task.FromResult(new UserInfoResponse
             {
                 Success = false,

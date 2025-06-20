@@ -3,11 +3,8 @@ using TrueCodeTestTask.Common.Models;
 
 namespace TrueCodeTestTask.Common.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Currency> Currencies { get; set; }

@@ -5,65 +5,59 @@ using TrueCodeTestTask.Common.Models;
 
 namespace TrueCodeTestTask.FinanceService.Repositories;
 
-public class CurrencyRepository : ICurrencyRepository
+public class CurrencyRepository(ApplicationDbContext context) : ICurrencyRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public CurrencyRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
 
     public async Task<List<Currency>> GetAllAsync()
     {
-        return await _context.Currencies
+        return await context.Currencies
             .OrderBy(c => c.Name)
             .ToListAsync();
     }
 
     public async Task<Currency?> GetByIdAsync(int id)
     {
-        return await _context.Currencies.FindAsync(id);
+        return await context.Currencies.FindAsync(id);
     }
 
     public async Task<Currency?> GetByNameAsync(string name)
     {
-        return await _context.Currencies
+        return await context.Currencies
             .FirstOrDefaultAsync(c => c.Name == name);
     }
 
     public async Task<Currency> CreateAsync(Currency currency)
     {
-        _context.Currencies.Add(currency);
-        await _context.SaveChangesAsync();
+        context.Currencies.Add(currency);
+        await context.SaveChangesAsync();
         return currency;
     }
 
     public async Task<Currency> UpdateAsync(Currency currency)
     {
-        _context.Currencies.Update(currency);
-        await _context.SaveChangesAsync();
+        context.Currencies.Update(currency);
+        await context.SaveChangesAsync();
         return currency;
     }
 
     public async Task DeleteAsync(int id)
     {
-        var currency = await _context.Currencies.FindAsync(id);
+        var currency = await context.Currencies.FindAsync(id);
         if (currency != null)
         {
-            _context.Currencies.Remove(currency);
-            await _context.SaveChangesAsync();
+            context.Currencies.Remove(currency);
+            await context.SaveChangesAsync();
         }
     }
 
     public async Task BulkUpdateAsync(List<Currency> currencies)
     {
-        using var transaction = await _context.Database.BeginTransactionAsync();
+        using var transaction = await context.Database.BeginTransactionAsync();
         try
         {
             foreach (var currency in currencies)
             {
-                var existingCurrency = await _context.Currencies
+                var existingCurrency = await context.Currencies
                     .FirstOrDefaultAsync(c => c.Name == currency.Name);
 
                 if (existingCurrency != null)
@@ -73,11 +67,11 @@ public class CurrencyRepository : ICurrencyRepository
                 }
                 else
                 {
-                    _context.Currencies.Add(currency);
+                    context.Currencies.Add(currency);
                 }
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             await transaction.CommitAsync();
         }
         catch

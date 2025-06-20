@@ -7,16 +7,8 @@ namespace TrueCodeTestTask.UserService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(IAuthService authService, ILogger<AuthController> logger) : ControllerBase
 {
-    private readonly IAuthService _authService;
-    private readonly ILogger<AuthController> _logger;
-
-    public AuthController(IAuthService authService, ILogger<AuthController> logger)
-    {
-        _authService = authService;
-        _logger = logger;
-    }
 
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
@@ -26,8 +18,8 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = await _authService.RegisterAsync(request);
-        
+        var result = await authService.RegisterAsync(request);
+
         if (result.Success)
         {
             return Ok(result);
@@ -44,8 +36,8 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = await _authService.LoginAsync(request);
-        
+        var result = await authService.LoginAsync(request);
+
         if (result.Success)
         {
             return Ok(result);
@@ -59,7 +51,7 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<AuthResponse>> Logout()
     {
         var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-        
+
         if (string.IsNullOrEmpty(token))
         {
             return BadRequest(new AuthResponse
@@ -69,7 +61,7 @@ public class AuthController : ControllerBase
             });
         }
 
-        var result = await _authService.LogoutAsync(token);
+        var result = await authService.LogoutAsync(token);
         return Ok(result);
     }
 
