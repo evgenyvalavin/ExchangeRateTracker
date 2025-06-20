@@ -50,7 +50,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
     [Authorize]
     public async Task<ActionResult<AuthResponse>> Logout()
     {
-        var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        var token = Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
 
         if (string.IsNullOrEmpty(token))
         {

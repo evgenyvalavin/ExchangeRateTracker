@@ -66,7 +66,7 @@ public class AuthController(ProxyService proxyService, IConfiguration configurat
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
-        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
             return BadRequest(new { message = "Authorization header is required" });
@@ -95,7 +95,7 @@ public class AuthController(ProxyService proxyService, IConfiguration configurat
     [HttpGet("me")]
     public async Task<IActionResult> GetCurrentUser()
     {
-        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
             return BadRequest(new { message = "Authorization header is required" });

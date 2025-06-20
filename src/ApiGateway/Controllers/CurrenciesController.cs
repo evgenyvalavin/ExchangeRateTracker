@@ -12,7 +12,7 @@ public class CurrenciesController(ProxyService proxyService, IConfiguration conf
     [HttpGet]
     public async Task<IActionResult> GetAllCurrencies()
     {
-        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
             return Unauthorized(new { message = "Authorization header is required" });
@@ -41,7 +41,7 @@ public class CurrenciesController(ProxyService proxyService, IConfiguration conf
     [HttpGet("favorites")]
     public async Task<IActionResult> GetFavoriteCurrencies()
     {
-        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
             return Unauthorized(new { message = "Authorization header is required" });
@@ -75,7 +75,7 @@ public class CurrenciesController(ProxyService proxyService, IConfiguration conf
             return BadRequest(ModelState);
         }
 
-        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
             return Unauthorized(new { message = "Authorization header is required" });
@@ -104,7 +104,7 @@ public class CurrenciesController(ProxyService proxyService, IConfiguration conf
     [HttpDelete("favorites/{currencyId}")]
     public async Task<IActionResult> RemoveFavoriteCurrency(int currencyId)
     {
-        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
             return Unauthorized(new { message = "Authorization header is required" });
