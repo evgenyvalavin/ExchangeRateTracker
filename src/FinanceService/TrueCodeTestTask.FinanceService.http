@@ -1,6 +1,32 @@
-@TrueCodeTestTask.FinanceService_HostAddress = http://localhost:5106
+@TrueCodeTestTask.FinanceService_HostAddress = http://localhost:8082
 
-GET {{TrueCodeTestTask.FinanceService_HostAddress}}/weatherforecast/
+# Get all currencies (requires authentication)
+GET {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
+
+###
+
+# Get user's favorite currencies (requires authentication)
+GET {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies/favorites
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Accept: application/json
+
+###
+
+# Add currency to favorites (requires authentication)
+POST {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies/favorites
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "currencyId": 1
+}
+
+###
+
+# Remove currency from favorites (requires authentication)
+DELETE {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies/favorites/1
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
 
 ###

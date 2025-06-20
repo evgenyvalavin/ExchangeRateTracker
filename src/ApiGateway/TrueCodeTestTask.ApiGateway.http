@@ -1,6 +1,68 @@
-@TrueCodeTestTask.ApiGateway_HostAddress = http://localhost:5123
+@TrueCodeTestTask.ApiGateway_HostAddress = http://localhost:8080
 
-GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/weatherforecast/
+# Register a new user via API Gateway
+POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "password": "SecurePassword123!"
+}
+
+###
+
+# Login via API Gateway
+POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "password": "SecurePassword123!"
+}
+
+###
+
+# Get current user profile via API Gateway (requires authentication)
+GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/me
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
+
+###
+
+# Logout via API Gateway (requires authentication)
+POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/logout
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Content-Type: application/json
+
+###
+
+# Get all currencies via API Gateway (requires authentication)
+GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Accept: application/json
+
+###
+
+# Get user's favorite currencies via API Gateway (requires authentication)
+GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies/favorites
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Accept: application/json
+
+###
+
+# Add currency to favorites via API Gateway (requires authentication)
+POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies/favorites
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "currencyId": 1
+}
+
+###
+
+# Remove currency from favorites via API Gateway (requires authentication)
+DELETE {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies/favorites/1
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
 
 ###

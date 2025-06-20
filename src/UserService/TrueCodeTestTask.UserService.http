@@ -6,7 +6,6 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "email": "john.doe@example.com",
   "password": "SecurePassword123!"
 }
 
@@ -18,7 +17,6 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "email": "john.doe@example.com",
   "password": "SecurePassword123!"
 }
 
