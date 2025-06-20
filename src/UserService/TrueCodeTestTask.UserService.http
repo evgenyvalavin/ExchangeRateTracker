@@ -1,6 +1,39 @@
-@TrueCodeTestTask.UserService_HostAddress = http://localhost:5127
+@TrueCodeTestTask.UserService_HostAddress = http://localhost:8081
 
-GET {{TrueCodeTestTask.UserService_HostAddress}}/weatherforecast/
+# Register a new user
+POST {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "SecurePassword123!"
+}
+
+###
+
+# Login with user credentials
+POST {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "SecurePassword123!"
+}
+
+###
+
+# Get current user profile (requires authentication)
+GET {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/me
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
+
+###
+
+# Logout (requires authentication)
+POST {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/logout
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Content-Type: application/json
 
 ###
