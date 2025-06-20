@@ -23,7 +23,7 @@ public class CbrCurrencyService(HttpClient httpClient, ApplicationDbContext cont
             var response = encoding.GetString(responseBytes);
             var currencies = ParseCbrXml(response);
 
-            if (currencies.Any())
+            if (currencies.Count != 0)
             {
                 await UpdateDatabaseAsync(currencies);
                 logger.LogInformation("Successfully updated {Count} currency rates", currencies.Count);

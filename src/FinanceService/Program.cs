@@ -23,11 +23,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add repositories
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
-builder.Services.AddScoped<IUserRepository, TrueCodeTestTask.FinanceService.Repositories.UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add services
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
-builder.Services.AddScoped<IJwtService, TrueCodeTestTask.FinanceService.Services.JwtService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Add JWT authentication
 var jwtSecretKey = builder.Configuration["JWT:SecretKey"] ?? "your-super-secret-jwt-key-here-make-it-long-and-secure";
