@@ -1,21 +1,21 @@
-@TrueCodeTestTask.FinanceService_HostAddress = http://localhost:8082
+@Host = http://localhost:8082
 
 # Get all currencies (requires authentication)
-GET {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies
+GET {{Host}}/api/currencies
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
 
 ###
 
 # Get user's favorite currencies (requires authentication)
-GET {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies/favorites
+GET {{Host}}/api/currencies/favorites
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
 
 ###
 
 # Add currency to favorites (requires authentication)
-POST {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies/favorites
+POST {{Host}}/api/currencies/favorites
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Content-Type: application/json
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 ###
 
 # Remove currency from favorites (requires authentication)
-DELETE {{TrueCodeTestTask.FinanceService_HostAddress}}/api/currencies/favorites/1
+DELETE {{Host}}/api/currencies/favorites/1
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 
 ###

@@ -1,7 +1,7 @@
-@TrueCodeTestTask.ApiGateway_HostAddress = http://localhost:8080
+@Host = http://localhost:8080
 
 # Register a new user via API Gateway
-POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/register
+POST {{Host}}/api/auth/register
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 
 # Login via API Gateway
-POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/login
+POST {{Host}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -23,35 +23,35 @@ Content-Type: application/json
 ###
 
 # Get current user profile via API Gateway (requires authentication)
-GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/me
+GET {{Host}}/api/auth/me
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
 
 ###
 
 # Logout via API Gateway (requires authentication)
-POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/auth/logout
+POST {{Host}}/api/auth/logout
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Content-Type: application/json
 
 ###
 
 # Get all currencies via API Gateway (requires authentication)
-GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies
+GET {{Host}}/api/currencies
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
 
 ###
 
 # Get user's favorite currencies via API Gateway (requires authentication)
-GET {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies/favorites
+GET {{Host}}/api/currencies/favorites
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
 
 ###
 
 # Add currency to favorites via API Gateway (requires authentication)
-POST {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies/favorites
+POST {{Host}}/api/currencies/favorites
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Content-Type: application/json
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 ###
 
 # Remove currency from favorites via API Gateway (requires authentication)
-DELETE {{TrueCodeTestTask.ApiGateway_HostAddress}}/api/currencies/favorites/1
+DELETE {{Host}}/api/currencies/favorites/1
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 
 ###

@@ -1,7 +1,7 @@
-@TrueCodeTestTask.UserService_HostAddress = http://localhost:8081
+@Host = http://localhost:8081
 
 # Register a new user
-POST {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/register
+POST {{Host}}/api/auth/register
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 
 # Login with user credentials
-POST {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/login
+POST {{Host}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -23,14 +23,14 @@ Content-Type: application/json
 ###
 
 # Get current user profile (requires authentication)
-GET {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/me
+GET {{Host}}/api/auth/me
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Accept: application/json
 
 ###
 
 # Logout (requires authentication)
-POST {{TrueCodeTestTask.UserService_HostAddress}}/api/auth/logout
+POST {{Host}}/api/auth/logout
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 Content-Type: application/json
 
