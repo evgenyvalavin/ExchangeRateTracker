@@ -1,9 +1,8 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using TrueCodeTestTask.Common.Data;
+using TrueCodeTestTask.Common.Extensions;
 using TrueCodeTestTask.Common.Interfaces;
+using TrueCodeTestTask.FinanceService.Grpc;
 using TrueCodeTestTask.FinanceService.Repositories;
 using TrueCodeTestTask.FinanceService.Services;
 
@@ -30,25 +29,7 @@ builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Add JWT authentication
-var jwtSecretKey = builder.Configuration["JWT:SecretKey"] ?? "your-super-secret-jwt-key-here-make-it-long-and-secure";
-var jwtIssuer = builder.Configuration["JWT:Issuer"] ?? "TrueCodeTestTask";
-var jwtAudience = builder.Configuration["JWT:Audience"] ?? "TrueCodeTestTask";
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecretKey)),
-            ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
-            ValidateAudience = true,
-            ValidAudience = jwtAudience,
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -74,7 +55,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Map gRPC services
-app.MapGrpcService<TrueCodeTestTask.FinanceService.Grpc.CurrencyGrpcService>();
+app.MapGrpcService<CurrencyGrpcService>();
 
 // Health check endpoint
 app.MapGet("/health", () => new { status = "healthy", timestamp = DateTime.UtcNow });

@@ -25,16 +25,16 @@ public class JwtService : IJwtService
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_secretKey);
-        
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
+            Subject = new ClaimsIdentity(
+            [
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                 new Claim(ClaimTypes.Name, userName),
                 new Claim("userId", userId.ToString()),
                 new Claim("userName", userName)
-            }),
+            ]),
             Expires = DateTime.UtcNow.AddHours(24),
             Issuer = _issuer,
             Audience = _audience,
@@ -78,7 +78,7 @@ public class JwtService : IJwtService
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jsonToken = tokenHandler.ReadJwtToken(token);
-            
+
             var userIdClaim = jsonToken.Claims.FirstOrDefault(x => x.Type == "userId");
             if (userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId))
             {
@@ -99,7 +99,7 @@ public class JwtService : IJwtService
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jsonToken = tokenHandler.ReadJwtToken(token);
-            
+
             var userNameClaim = jsonToken.Claims.FirstOrDefault(x => x.Type == "userName");
             return userNameClaim?.Value;
         }

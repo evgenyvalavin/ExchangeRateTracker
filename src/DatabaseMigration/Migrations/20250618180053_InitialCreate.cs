@@ -68,7 +68,7 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
 
             migrationBuilder.InsertData(
                 table: "Currencies",
-                columns: new[] { "Id", "Name", "Rate", "UpdatedAt" },
+                columns: ["Id", "Name", "Rate", "UpdatedAt"],
                 values: new object[,]
                 {
                     { 1, "USD", 90.0m, new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) },

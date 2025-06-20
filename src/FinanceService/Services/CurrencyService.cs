@@ -19,13 +19,13 @@ public class CurrencyService(
             {
                 Success = true,
                 Message = "Currencies retrieved successfully",
-                Currencies = currencies.Select(c => new CurrencyDto
+                Currencies = [.. currencies.Select(c => new CurrencyDto
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Rate = c.Rate,
                     UpdatedAt = c.UpdatedAt
-                }).ToList()
+                })]
             };
         }
         catch (Exception ex)
@@ -49,13 +49,13 @@ public class CurrencyService(
             {
                 Success = true,
                 Message = "Favorite currencies retrieved successfully",
-                Currencies = favoriteCurrencies.Select(c => new CurrencyDto
+                Currencies = [.. favoriteCurrencies.Select(c => new CurrencyDto
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Rate = c.Rate,
                     UpdatedAt = c.UpdatedAt
-                }).ToList()
+                })]
             };
         }
         catch (Exception ex)
