@@ -17,5 +17,5 @@ public class User
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation property for user's favorite currencies
-    public virtual ICollection<UserCurrency> FavoriteCurrencies { get; set; } = new List<UserCurrency>();
+    public virtual ICollection<UserCurrency> FavoriteCurrencies { get; set; } = [];
 }
