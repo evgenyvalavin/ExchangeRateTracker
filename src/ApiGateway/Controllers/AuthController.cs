@@ -69,7 +69,7 @@ public class AuthController(ProxyService proxyService, IConfiguration configurat
         var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
-            return BadRequest(new { message = "Authorization header is required" });
+            return Unauthorized(new { message = "Authorization header is required" });
         }
 
         var userServiceUrl = configuration["UserService:BaseUrl"] ?? "http://user-service:8080";
@@ -98,7 +98,7 @@ public class AuthController(ProxyService proxyService, IConfiguration configurat
         var authHeader = Request.Headers.Authorization.FirstOrDefault();
         if (string.IsNullOrEmpty(authHeader))
         {
-            return BadRequest(new { message = "Authorization header is required" });
+            return Unauthorized(new { message = "Authorization header is required" });
         }
 
         var userServiceUrl = configuration["UserService:BaseUrl"] ?? "http://user-service:8080";

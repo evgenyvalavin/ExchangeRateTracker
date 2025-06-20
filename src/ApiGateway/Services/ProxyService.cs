@@ -69,12 +69,12 @@ public class ProxyService(HttpClient httpClient, ILogger<ProxyService> logger)
                 });
             }
 
-            return default(T);
+            return default;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error forwarding request to {Url}", targetUrl);
-            return default(T);
+            return default;
         }
     }
 }
