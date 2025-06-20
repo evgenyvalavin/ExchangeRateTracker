@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
-using TrueCodeTestTask.UserService.Services;
+using TrueCodeTestTask.Common.Services;
 
 namespace TrueCodeTestTask.UserService.Tests;
 
@@ -12,7 +12,7 @@ public class JwtServiceTests
     public JwtServiceTests()
     {
         _mockConfiguration = new Mock<IConfiguration>();
-        
+
         // Setup configuration values
         _mockConfiguration.Setup(x => x["JWT:SecretKey"])
             .Returns("your-super-secret-jwt-key-here-make-it-long-and-secure");

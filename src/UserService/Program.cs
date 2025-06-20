@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TrueCodeTestTask.Common.Data;
 using TrueCodeTestTask.Common.Interfaces;
+using TrueCodeTestTask.Common.Services;
+using TrueCodeTestTask.UserService.Grpc;
 using TrueCodeTestTask.UserService.Repositories;
 using TrueCodeTestTask.UserService.Services;
 
@@ -73,7 +75,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Map gRPC services
-app.MapGrpcService<TrueCodeTestTask.UserService.Grpc.AuthGrpcService>();
+app.MapGrpcService<AuthGrpcService>();
 
 // Health check endpoint
 app.MapGet("/health", () => new { status = "healthy", timestamp = DateTime.UtcNow });

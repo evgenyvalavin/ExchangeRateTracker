@@ -1,5 +1,4 @@
 using TrueCodeTestTask.Common.Interfaces;
-using BCrypt.Net;
 
 namespace TrueCodeTestTask.UserService.Services;
 

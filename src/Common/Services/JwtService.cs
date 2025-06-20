@@ -1,10 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TrueCodeTestTask.Common.Interfaces;
 
-namespace TrueCodeTestTask.FinanceService.Services;
+namespace TrueCodeTestTask.Common.Services;
 
 public class JwtService : IJwtService
 {
