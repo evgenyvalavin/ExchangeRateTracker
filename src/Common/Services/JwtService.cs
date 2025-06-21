@@ -21,6 +21,7 @@ public class JwtService : IJwtService
         _issuer = _configuration["JWT:Issuer"] ?? "TrueCodeTestTask";
         _audience = _configuration["JWT:Audience"] ?? "TrueCodeTestTask";
     }
+
     public string GenerateToken(Guid userId, string userName)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -71,6 +72,7 @@ public class JwtService : IJwtService
             return false;
         }
     }
+
     public Guid? GetUserIdFromToken(string token)
     {
         try
