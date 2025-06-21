@@ -1,4 +1,5 @@
 @Host = http://localhost:8080
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyN2Y2ZDMzMC00ZTY4LTQwZGItOGQ0MS1lZGQ3MjIwMzE1MzMiLCJ1bmlxdWVfbmFtZSI6IkpvaG4gRG9lIiwidXNlcklkIjoiMjdmNmQzMzAtNGU2OC00MGRiLThkNDEtZWRkNzIyMDMxNTMzIiwidXNlck5hbWUiOiJKb2huIERvZSIsIm5iZiI6MTc1MDUzNjQ1OSwiZXhwIjoxNzUwNjIyODU5LCJpYXQiOjE3NTA1MzY0NTksImlzcyI6IlRydWVDb2RlVGVzdFRhc2siLCJhdWQiOiJUcnVlQ29kZVRlc3RUYXNrIn0.NDk6RZeJ9KXBVd6gcZmoQD0GCuOt2eOSwF3bylGhElA
 
 # Register a new user via API Gateway
 POST {{Host}}/api/auth/register
@@ -24,35 +25,35 @@ Content-Type: application/json
 
 # Get current user profile via API Gateway (requires authentication)
 GET {{Host}}/api/auth/me
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer {{ userToken }}
 Accept: application/json
 
 ###
 
 # Logout via API Gateway (requires authentication)
 POST {{Host}}/api/auth/logout
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer {{ userToken }}
 Content-Type: application/json
 
 ###
 
 # Get all currencies via API Gateway (requires authentication)
 GET {{Host}}/api/currencies
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer {{ userToken }}
 Accept: application/json
 
 ###
 
 # Get user's favorite currencies via API Gateway (requires authentication)
 GET {{Host}}/api/currencies/favorites
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer {{ userToken }}
 Accept: application/json
 
 ###
 
 # Add currency to favorites via API Gateway (requires authentication)
 POST {{Host}}/api/currencies/favorites
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer {{ userToken }}
 Content-Type: application/json
 
 {
@@ -63,6 +64,6 @@ Content-Type: application/json
 
 # Remove currency from favorites via API Gateway (requires authentication)
 DELETE {{Host}}/api/currencies/favorites/1
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer {{ userToken }}
 
 ###

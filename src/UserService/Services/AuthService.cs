@@ -10,6 +10,10 @@ public class AuthService(
     IJwtService jwtService,
     ILogger<AuthService> logger) : IAuthService
 {
+    public Task<User?> GetUserById(Guid userId)
+    {
+        return userRepository.GetByIdAsync(userId);
+    }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
@@ -28,7 +32,6 @@ public class AuthService(
             // Create new user
             var user = new User
             {
-                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Password = passwordService.HashPassword(request.Password),
                 CreatedAt = DateTime.UtcNow

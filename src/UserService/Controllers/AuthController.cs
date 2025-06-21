@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrueCodeTestTask.Common.DTOs;
@@ -67,7 +68,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
 
     [HttpGet("me")]
     [Authorize]
-    public ActionResult<UserDto> GetCurrentUser()
+    public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
         var userIdClaim = User.FindFirst("userId")?.Value;
         var userNameClaim = User.FindFirst("userName")?.Value;
@@ -79,11 +80,12 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
 
         if (Guid.TryParse(userIdClaim, out var userId))
         {
+            var user = await authService.GetUserById(userId);
             return Ok(new UserDto
             {
                 Id = userId,
                 Name = userNameClaim,
-                CreatedAt = DateTime.UtcNow // This would normally come from the database
+                CreatedAt = user?.CreatedAt ?? DateTime.UtcNow
             });
         }
 

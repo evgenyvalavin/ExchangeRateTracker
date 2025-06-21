@@ -53,7 +53,7 @@ public class CurrencyServiceTests
     public async Task GetUserFavoriteCurrenciesAsync_WithValidUserId_ReturnsSuccessResponse()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var favoriteCurrencies = new List<Currency>
         {
             new Currency { Id = 1, Name = "USD", Rate = 90.0m, UpdatedAt = DateTime.UtcNow }
@@ -76,7 +76,7 @@ public class CurrencyServiceTests
     public async Task AddFavoriteCurrencyAsync_WithValidData_ReturnsTrue()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var currencyId = 1;
         var currency = new Currency { Id = currencyId, Name = "USD", Rate = 90.0m };
         var user = new User { Id = userId, Name = "testuser" };
@@ -100,7 +100,7 @@ public class CurrencyServiceTests
     public async Task AddFavoriteCurrencyAsync_WithInvalidCurrency_ReturnsFalse()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var currencyId = 999;
 
         _mockCurrencyRepository.Setup(x => x.GetByIdAsync(currencyId))
@@ -111,14 +111,14 @@ public class CurrencyServiceTests
 
         // Assert
         Assert.False(result);
-        _mockUserRepository.Verify(x => x.AddFavoriteCurrencyAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Never);
+        _mockUserRepository.Verify(x => x.AddFavoriteCurrencyAsync(It.IsAny<Guid>(), It.IsAny<int>()), Times.Never);
     }
 
     [Fact]
     public async Task AddFavoriteCurrencyAsync_WithInvalidUser_ReturnsFalse()
     {
         // Arrange
-        var userId = 999;
+        var userId = Guid.NewGuid();
         var currencyId = 1;
         var currency = new Currency { Id = currencyId, Name = "USD", Rate = 90.0m };
 
@@ -132,14 +132,14 @@ public class CurrencyServiceTests
 
         // Assert
         Assert.False(result);
-        _mockUserRepository.Verify(x => x.AddFavoriteCurrencyAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Never);
+        _mockUserRepository.Verify(x => x.AddFavoriteCurrencyAsync(It.IsAny<Guid>(), It.IsAny<int>()), Times.Never);
     }
 
     [Fact]
     public async Task RemoveFavoriteCurrencyAsync_WithValidData_ReturnsTrue()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var currencyId = 1;
 
         _mockUserRepository.Setup(x => x.RemoveFavoriteCurrencyAsync(userId, currencyId))

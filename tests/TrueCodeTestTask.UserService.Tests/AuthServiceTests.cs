@@ -47,7 +47,7 @@ public class AuthServiceTests
 
         var createdUser = new User
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = request.Name,
             Password = "hashedpassword",
             CreatedAt = DateTime.UtcNow

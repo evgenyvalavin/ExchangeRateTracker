@@ -47,7 +47,7 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", (string)null);
                 });
 
             modelBuilder.Entity("TrueCodeTestTask.Common.Models.User", b =>
@@ -74,7 +74,7 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TrueCodeTestTask.Common.Models.UserCurrency", b =>
@@ -92,7 +92,7 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
 
                     b.HasIndex("CurrencyId");
 
-                    b.ToTable("UserCurrencies");
+                    b.ToTable("UserCurrencies", (string)null);
                 });
 
             modelBuilder.Entity("TrueCodeTestTask.Common.Models.UserCurrency", b =>
