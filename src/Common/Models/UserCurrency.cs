@@ -2,7 +2,7 @@ namespace TrueCodeTestTask.Common.Models;
 
 public class UserCurrency
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public int CurrencyId { get; set; }
 
     public virtual User User { get; set; } = null!;

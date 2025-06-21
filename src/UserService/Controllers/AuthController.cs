@@ -77,7 +77,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
             return Unauthorized();
         }
 
-        if (int.TryParse(userIdClaim, out var userId))
+        if (Guid.TryParse(userIdClaim, out var userId))
         {
             return Ok(new UserDto
             {

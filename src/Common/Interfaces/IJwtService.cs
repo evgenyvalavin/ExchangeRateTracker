@@ -2,8 +2,8 @@ namespace TrueCodeTestTask.Common.Interfaces;
 
 public interface IJwtService
 {
-    string GenerateToken(int userId, string userName);
+    string GenerateToken(Guid userId, string userName);
     bool ValidateToken(string token);
-    int? GetUserIdFromToken(string token);
+    Guid? GetUserIdFromToken(string token);
     string? GetUserNameFromToken(string token);
 }

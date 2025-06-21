@@ -28,6 +28,7 @@ public class AuthService(
             // Create new user
             var user = new User
             {
+                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Password = passwordService.HashPassword(request.Password),
                 CreatedAt = DateTime.UtcNow

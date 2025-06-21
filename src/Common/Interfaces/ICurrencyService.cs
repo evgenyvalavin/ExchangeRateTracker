@@ -5,7 +5,7 @@ namespace TrueCodeTestTask.Common.Interfaces;
 public interface ICurrencyService
 {
     Task<CurrencyResponse> GetAllCurrenciesAsync();
-    Task<CurrencyResponse> GetUserFavoriteCurrenciesAsync(int userId);
-    Task<bool> AddFavoriteCurrencyAsync(int userId, int currencyId);
-    Task<bool> RemoveFavoriteCurrencyAsync(int userId, int currencyId);
+    Task<CurrencyResponse> GetUserFavoriteCurrenciesAsync(Guid userId);
+    Task<bool> AddFavoriteCurrencyAsync(Guid userId, int currencyId);
+    Task<bool> RemoveFavoriteCurrencyAsync(Guid userId, int currencyId);
 }

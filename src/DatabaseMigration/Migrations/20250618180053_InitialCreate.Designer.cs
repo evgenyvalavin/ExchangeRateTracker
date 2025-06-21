@@ -51,29 +51,6 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
                         .IsUnique();
 
                     b.ToTable("Currencies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "USD",
-                            Rate = 90.0m,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "EUR",
-                            Rate = 100.0m,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "GBP",
-                            Rate = 115.0m,
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("TrueCodeTestTask.Common.Models.User", b =>

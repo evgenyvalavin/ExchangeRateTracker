@@ -39,7 +39,7 @@ public class CurrencyService(
         }
     }
 
-    public async Task<CurrencyResponse> GetUserFavoriteCurrenciesAsync(int userId)
+    public async Task<CurrencyResponse> GetUserFavoriteCurrenciesAsync(Guid userId)
     {
         try
         {
@@ -69,7 +69,7 @@ public class CurrencyService(
         }
     }
 
-    public async Task<bool> AddFavoriteCurrencyAsync(int userId, int currencyId)
+    public async Task<bool> AddFavoriteCurrencyAsync(Guid userId, int currencyId)
     {
         try
         {
@@ -100,7 +100,7 @@ public class CurrencyService(
         }
     }
 
-    public async Task<bool> RemoveFavoriteCurrencyAsync(int userId, int currencyId)
+    public async Task<bool> RemoveFavoriteCurrencyAsync(Guid userId, int currencyId)
     {
         try
         {

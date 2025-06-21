@@ -8,7 +8,7 @@ namespace TrueCodeTestTask.FinanceService.Repositories;
 public class UserRepository(ApplicationDbContext context) : IUserRepository
 {
 
-    public async Task<User?> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(Guid id)
     {
         return await context.Users
             .Include(u => u.FavoriteCurrencies)
@@ -36,7 +36,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
         return await context.Users.AnyAsync(u => u.Name == name);
     }
 
-    public async Task<List<Currency>> GetFavoriteCurrenciesAsync(int userId)
+    public async Task<List<Currency>> GetFavoriteCurrenciesAsync(Guid userId)
     {
         return await context.UserCurrencies
             .Where(uc => uc.UserId == userId)
@@ -44,7 +44,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
             .ToListAsync();
     }
 
-    public async Task AddFavoriteCurrencyAsync(int userId, int currencyId)
+    public async Task AddFavoriteCurrencyAsync(Guid userId, int currencyId)
     {
         var userCurrency = new UserCurrency
         {
@@ -57,7 +57,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task RemoveFavoriteCurrencyAsync(int userId, int currencyId)
+    public async Task RemoveFavoriteCurrencyAsync(Guid userId, int currencyId)
     {
         var userCurrency = await context.UserCurrencies
             .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CurrencyId == currencyId);

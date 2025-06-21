@@ -67,7 +67,7 @@ public class CurrencyGrpcService(ICurrencyService currencyService, IJwtService j
                 };
             }
 
-            var result = await currencyService.GetUserFavoriteCurrenciesAsync(request.UserId);
+            var result = await currencyService.GetUserFavoriteCurrenciesAsync(Guid.Parse(request.UserId));
 
             var response = new CurrencyListResponse
             {
@@ -113,7 +113,7 @@ public class CurrencyGrpcService(ICurrencyService currencyService, IJwtService j
                 };
             }
 
-            var success = await currencyService.AddFavoriteCurrencyAsync(request.UserId, request.CurrencyId);
+            var success = await currencyService.AddFavoriteCurrencyAsync(Guid.Parse(request.UserId), request.CurrencyId);
 
             return new FavoriteCurrencyResponse
             {
@@ -146,7 +146,7 @@ public class CurrencyGrpcService(ICurrencyService currencyService, IJwtService j
                 };
             }
 
-            var success = await currencyService.RemoveFavoriteCurrencyAsync(request.UserId, request.CurrencyId);
+            var success = await currencyService.RemoveFavoriteCurrencyAsync(Guid.Parse(request.UserId), request.CurrencyId);
 
             return new FavoriteCurrencyResponse
             {

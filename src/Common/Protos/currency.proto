@@ -19,18 +19,18 @@ message GetAllCurrenciesRequest {
 
 message GetUserFavoriteCurrenciesRequest {
   string token = 1;
-  int32 user_id = 2;
+  string user_id = 2;
 }
 
 message AddFavoriteCurrencyRequest {
   string token = 1;
-  int32 user_id = 2;
+  string user_id = 2;
   int32 currency_id = 3;
 }
 
 message RemoveFavoriteCurrencyRequest {
   string token = 1;
-  int32 user_id = 2;
+  string user_id = 2;
   int32 currency_id = 3;
 }
 

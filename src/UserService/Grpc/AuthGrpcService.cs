@@ -27,7 +27,7 @@ public class AuthGrpcService(IAuthService authService, IJwtService jwtService, I
                 Token = result.Token ?? string.Empty,
                 User = result.User != null ? new UserInfo
                 {
-                    Id = result.User.Id,
+                    Id = result.User.Id.ToString(),
                     Name = result.User.Name,
                     CreatedAt = result.User.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
                 } : null
@@ -63,7 +63,7 @@ public class AuthGrpcService(IAuthService authService, IJwtService jwtService, I
                 Token = result.Token ?? string.Empty,
                 User = result.User != null ? new UserInfo
                 {
-                    Id = result.User.Id,
+                    Id = result.User.Id.ToString(),
                     Name = result.User.Name,
                     CreatedAt = result.User.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
                 } : null
@@ -91,7 +91,7 @@ public class AuthGrpcService(IAuthService authService, IJwtService jwtService, I
             return Task.FromResult(new ValidateTokenResponse
             {
                 IsValid = isValid,
-                UserId = userId ?? 0,
+                UserId = userId?.ToString() ?? string.Empty,
                 UserName = userName ?? string.Empty
             });
         }
@@ -101,7 +101,7 @@ public class AuthGrpcService(IAuthService authService, IJwtService jwtService, I
             return Task.FromResult(new ValidateTokenResponse
             {
                 IsValid = false,
-                UserId = 0,
+                UserId = string.Empty,
                 UserName = string.Empty
             });
         }
@@ -132,7 +132,7 @@ public class AuthGrpcService(IAuthService authService, IJwtService jwtService, I
                     Message = "User info retrieved successfully",
                     User = new UserInfo
                     {
-                        Id = userId.Value,
+                        Id = userId.Value.ToString(),
                         Name = userName,
                         CreatedAt = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ") // This would normally come from database
                     }

@@ -106,7 +106,7 @@ public class AuthServiceTests
 
         var user = new User
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = request.Name,
             Password = "hashedpassword",
             CreatedAt = DateTime.UtcNow
@@ -168,7 +168,7 @@ public class AuthServiceTests
 
         var user = new User
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = request.Name,
             Password = "hashedpassword",
             CreatedAt = DateTime.UtcNow

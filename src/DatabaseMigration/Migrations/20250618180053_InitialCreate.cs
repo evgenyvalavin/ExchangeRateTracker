@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-#nullable disable
-
 namespace TrueCodeTestTask.DatabaseMigration.Migrations
 {
-    /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -66,16 +62,6 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Currencies",
-                columns: ["Id", "Name", "Rate", "UpdatedAt"],
-                values: new object[,]
-                {
-                    { 1, "USD", 90.0m, new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) },
-                    { 2, "EUR", 100.0m, new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) },
-                    { 3, "GBP", 115.0m, new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Currencies_Name",
                 table: "Currencies",
@@ -94,7 +80,6 @@ namespace TrueCodeTestTask.DatabaseMigration.Migrations
                 unique: true);
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

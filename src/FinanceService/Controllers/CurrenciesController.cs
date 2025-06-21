@@ -29,7 +29,7 @@ public class CurrenciesController(ICurrencyService currencyService, ILogger<Curr
     {
         var userIdClaim = User.FindFirst("userId")?.Value;
 
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized(new CurrencyResponse
             {
@@ -58,7 +58,7 @@ public class CurrenciesController(ICurrencyService currencyService, ILogger<Curr
 
         var userIdClaim = User.FindFirst("userId")?.Value;
 
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized(new { message = "Invalid user token" });
         }
@@ -78,7 +78,7 @@ public class CurrenciesController(ICurrencyService currencyService, ILogger<Curr
     {
         var userIdClaim = User.FindFirst("userId")?.Value;
 
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
         {
             return Unauthorized(new { message = "Invalid user token" });
         }

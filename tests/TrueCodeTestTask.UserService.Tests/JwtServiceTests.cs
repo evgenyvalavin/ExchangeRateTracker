@@ -28,7 +28,7 @@ public class JwtServiceTests
     public void GenerateToken_WithValidInput_ReturnsValidToken()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var userName = "testuser";
 
         // Act
@@ -44,7 +44,7 @@ public class JwtServiceTests
     public void ValidateToken_WithValidToken_ReturnsTrue()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var userName = "testuser";
         var token = _jwtService.GenerateToken(userId, userName);
 
@@ -72,7 +72,7 @@ public class JwtServiceTests
     public void GetUserIdFromToken_WithValidToken_ReturnsCorrectUserId()
     {
         // Arrange
-        var userId = 123;
+        var userId = Guid.NewGuid();
         var userName = "testuser";
         var token = _jwtService.GenerateToken(userId, userName);
 
@@ -87,7 +87,7 @@ public class JwtServiceTests
     public void GetUserNameFromToken_WithValidToken_ReturnsCorrectUserName()
     {
         // Arrange
-        var userId = 1;
+        var userId = Guid.NewGuid();
         var userName = "testuser";
         var token = _jwtService.GenerateToken(userId, userName);
 
