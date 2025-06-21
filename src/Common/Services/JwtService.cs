@@ -20,7 +20,8 @@ public class JwtService : IJwtService
         _secretKey = _configuration["JWT:SecretKey"] ?? "your-super-secret-jwt-key-here-make-it-long-and-secure";
         _issuer = _configuration["JWT:Issuer"] ?? "TrueCodeTestTask";
         _audience = _configuration["JWT:Audience"] ?? "TrueCodeTestTask";
-    }    public string GenerateToken(Guid userId, string userName)
+    }
+    public string GenerateToken(Guid userId, string userName)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_secretKey);
@@ -69,7 +70,8 @@ public class JwtService : IJwtService
         {
             return false;
         }
-    }    public Guid? GetUserIdFromToken(string token)
+    }
+    public Guid? GetUserIdFromToken(string token)
     {
         try
         {

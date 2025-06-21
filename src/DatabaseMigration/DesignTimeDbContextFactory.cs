@@ -16,7 +16,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<Applicatio
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? "Host=localhost;Database=truecodedb;Username=postgres;Password=postgres123";
-            
+
         optionsBuilder.UseNpgsql(connectionString, b => b.MigrationsAssembly("TrueCodeTestTask.DatabaseMigration"));
 
         return new ApplicationDbContext(optionsBuilder.Options);
