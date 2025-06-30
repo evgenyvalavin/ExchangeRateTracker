@@ -1,4 +1,4 @@
-using TrueCodeTestTask.Common.Interfaces;
+using TrueCodeTestTask.UserService.Interfaces;
 
 namespace TrueCodeTestTask.UserService.Services;
 

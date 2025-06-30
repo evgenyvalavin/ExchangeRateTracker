@@ -1,4 +1,4 @@
-namespace TrueCodeTestTask.Common.Interfaces;
+namespace TrueCodeTestTask.UserService.Interfaces;
 
 public interface IPasswordService
 {

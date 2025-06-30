@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TrueCodeTestTask.Common.Data;
-using TrueCodeTestTask.Common.Interfaces;
 using TrueCodeTestTask.Common.Models;
+using TrueCodeTestTask.FinanceService.Interfaces;
 
 namespace TrueCodeTestTask.FinanceService.Repositories;
 

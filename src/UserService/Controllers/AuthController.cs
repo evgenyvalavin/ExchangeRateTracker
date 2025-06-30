@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.Common.Interfaces;
+using TrueCodeTestTask.UserService.Interfaces;
 
 namespace TrueCodeTestTask.UserService.Controllers;
 

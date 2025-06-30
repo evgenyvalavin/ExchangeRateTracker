@@ -3,6 +3,7 @@ using Moq;
 using TrueCodeTestTask.Common.DTOs;
 using TrueCodeTestTask.Common.Interfaces;
 using TrueCodeTestTask.Common.Models;
+using TrueCodeTestTask.UserService.Interfaces;
 using TrueCodeTestTask.UserService.Services;
 
 namespace TrueCodeTestTask.UserService.Tests;

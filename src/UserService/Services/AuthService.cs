@@ -1,6 +1,7 @@
 using TrueCodeTestTask.Common.DTOs;
 using TrueCodeTestTask.Common.Interfaces;
 using TrueCodeTestTask.Common.Models;
+using TrueCodeTestTask.UserService.Interfaces;
 
 namespace TrueCodeTestTask.UserService.Services;
 

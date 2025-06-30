@@ -4,6 +4,7 @@ using TrueCodeTestTask.Common.Extensions;
 using TrueCodeTestTask.Common.Interfaces;
 using TrueCodeTestTask.Common.Services;
 using TrueCodeTestTask.FinanceService.Grpc;
+using TrueCodeTestTask.FinanceService.Interfaces;
 using TrueCodeTestTask.FinanceService.Repositories;
 using TrueCodeTestTask.FinanceService.Services;
 

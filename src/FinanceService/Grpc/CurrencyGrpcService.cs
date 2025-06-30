@@ -1,6 +1,7 @@
 using Grpc.Core;
 using TrueCodeTestTask.Common.Grpc;
 using TrueCodeTestTask.Common.Interfaces;
+using TrueCodeTestTask.FinanceService.Interfaces;
 
 namespace TrueCodeTestTask.FinanceService.Grpc;
 

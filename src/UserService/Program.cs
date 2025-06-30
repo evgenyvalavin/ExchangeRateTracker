@@ -6,6 +6,7 @@ using TrueCodeTestTask.Common.Data;
 using TrueCodeTestTask.Common.Interfaces;
 using TrueCodeTestTask.Common.Services;
 using TrueCodeTestTask.UserService.Grpc;
+using TrueCodeTestTask.UserService.Interfaces;
 using TrueCodeTestTask.UserService.Repositories;
 using TrueCodeTestTask.UserService.Services;
 

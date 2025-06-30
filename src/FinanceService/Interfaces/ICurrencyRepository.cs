@@ -1,6 +1,6 @@
 using TrueCodeTestTask.Common.Models;
 
-namespace TrueCodeTestTask.Common.Interfaces;
+namespace TrueCodeTestTask.FinanceService.Interfaces;
 
 public interface ICurrencyRepository
 {

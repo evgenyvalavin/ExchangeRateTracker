@@ -1,7 +1,7 @@
 using TrueCodeTestTask.Common.DTOs;
 using TrueCodeTestTask.Common.Models;
 
-namespace TrueCodeTestTask.Common.Interfaces;
+namespace TrueCodeTestTask.UserService.Interfaces;
 
 public interface IAuthService
 {

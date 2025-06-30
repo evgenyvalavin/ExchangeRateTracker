@@ -2,6 +2,7 @@ using Grpc.Core;
 using TrueCodeTestTask.Common.DTOs;
 using TrueCodeTestTask.Common.Grpc;
 using TrueCodeTestTask.Common.Interfaces;
+using TrueCodeTestTask.UserService.Interfaces;
 
 namespace TrueCodeTestTask.UserService.Grpc;
 
