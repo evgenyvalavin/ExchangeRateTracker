@@ -1,4 +1,4 @@
-# TrueCode Test Task - Микросервисная архитектура на .NET 9
+# CbrCurrencyFavorites - Микросервисная архитектура на .NET 9
 
 ## Описание проекта
 
@@ -19,7 +19,7 @@
 - JWT Authentication
 - Docker & Docker Compose
 - Clean Architecture
-- gRPC (бонус)
+- gRPC
 
 ## Структура базы данных
 
