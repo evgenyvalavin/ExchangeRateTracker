@@ -1,4 +1,4 @@
-# CbrCurrencyFavorites - Микросервисная архитектура на .NET 9
+# ExchangeRateTracker - Микросервисная архитектура на .NET 9
 
 ## Описание проекта
 

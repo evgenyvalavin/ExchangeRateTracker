@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "TrueCodeTestTask.Common.Grpc";
+option csharp_namespace = "ExchangeRateTracker.Common.Grpc";
 
 package currency;
 

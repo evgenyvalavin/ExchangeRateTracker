@@ -1,12 +1,12 @@
+using ExchangeRateTracker.FinanceService.Grpc;
+using ExchangeRateTracker.FinanceService.Interfaces;
+using ExchangeRateTracker.FinanceService.Repositories;
+using ExchangeRateTracker.FinanceService.Services;
 using Microsoft.EntityFrameworkCore;
-using TrueCodeTestTask.Common.Data;
-using TrueCodeTestTask.Common.Extensions;
-using TrueCodeTestTask.Common.Interfaces;
-using TrueCodeTestTask.Common.Services;
-using TrueCodeTestTask.FinanceService.Grpc;
-using TrueCodeTestTask.FinanceService.Interfaces;
-using TrueCodeTestTask.FinanceService.Repositories;
-using TrueCodeTestTask.FinanceService.Services;
+using ExchangeRateTracker.Common.Data;
+using ExchangeRateTracker.Common.Extensions;
+using ExchangeRateTracker.Common.Interfaces;
+using ExchangeRateTracker.Common.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Host=localhost;Database=truecodedb;Username=postgres;Password=postgres123";
+        ?? "Host=localhost;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123";
     options.UseNpgsql(connectionString);
 });
 

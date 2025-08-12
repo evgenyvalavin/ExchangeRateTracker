@@ -1,9 +1,9 @@
+using ExchangeRateTracker.FinanceService.Interfaces;
 using Grpc.Core;
-using TrueCodeTestTask.Common.Grpc;
-using TrueCodeTestTask.Common.Interfaces;
-using TrueCodeTestTask.FinanceService.Interfaces;
+using ExchangeRateTracker.Common.Grpc;
+using ExchangeRateTracker.Common.Interfaces;
 
-namespace TrueCodeTestTask.FinanceService.Grpc;
+namespace ExchangeRateTracker.FinanceService.Grpc;
 
 public class CurrencyGrpcService(ICurrencyService currencyService, IJwtService jwtService, ILogger<CurrencyGrpcService> logger) : CurrencyService.CurrencyServiceBase
 {

@@ -1,9 +1,9 @@
+using ExchangeRateTracker.FinanceService.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using TrueCodeTestTask.Common.Data;
-using TrueCodeTestTask.Common.Models;
-using TrueCodeTestTask.FinanceService.Interfaces;
+using ExchangeRateTracker.Common.Data;
+using ExchangeRateTracker.Common.Models;
 
-namespace TrueCodeTestTask.FinanceService.Repositories;
+namespace ExchangeRateTracker.FinanceService.Repositories;
 
 public class UserRepository(ApplicationDbContext context) : IUserRepository
 {

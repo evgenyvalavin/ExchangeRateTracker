@@ -1,10 +1,10 @@
 using System.Text;
 using System.Xml.Linq;
-using TrueCodeTestTask.Common.Data;
-using TrueCodeTestTask.Common.Models;
 using Microsoft.EntityFrameworkCore;
+using ExchangeRateTracker.Common.Data;
+using ExchangeRateTracker.Common.Models;
 
-namespace TrueCodeTestTask.CurrencyService.Services;
+namespace ExchangeRateTracker.CurrencyService.Services;
 
 public class CbrCurrencyService(HttpClient httpClient, ApplicationDbContext context, ILogger<CbrCurrencyService> logger)
 {

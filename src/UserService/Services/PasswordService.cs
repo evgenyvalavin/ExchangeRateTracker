@@ -1,6 +1,6 @@
-using TrueCodeTestTask.UserService.Interfaces;
+using ExchangeRateTracker.UserService.Interfaces;
 
-namespace TrueCodeTestTask.UserService.Services;
+namespace ExchangeRateTracker.UserService.Services;
 
 public class PasswordService : IPasswordService
 {

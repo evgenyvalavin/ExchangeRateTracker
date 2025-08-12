@@ -1,9 +1,9 @@
+using ExchangeRateTracker.FinanceService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.FinanceService.Interfaces;
+using ExchangeRateTracker.Common.DTOs;
 
-namespace TrueCodeTestTask.FinanceService.Controllers;
+namespace ExchangeRateTracker.FinanceService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

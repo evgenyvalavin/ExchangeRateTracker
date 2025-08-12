@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
+using ExchangeRateTracker.Common.DTOs;
+using ExchangeRateTracker.UserService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.UserService.Interfaces;
 
-namespace TrueCodeTestTask.UserService.Controllers;
+namespace ExchangeRateTracker.UserService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,4 +1,4 @@
-namespace TrueCodeTestTask.UserService.Interfaces;
+namespace ExchangeRateTracker.UserService.Interfaces;
 
 public interface IPasswordService
 {

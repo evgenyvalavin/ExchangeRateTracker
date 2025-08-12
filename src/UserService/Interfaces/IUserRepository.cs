@@ -1,6 +1,6 @@
-using TrueCodeTestTask.Common.Models;
+using ExchangeRateTracker.Common.Models;
 
-namespace TrueCodeTestTask.UserService.Interfaces;
+namespace ExchangeRateTracker.UserService.Interfaces;
 
 public interface IUserRepository
 {

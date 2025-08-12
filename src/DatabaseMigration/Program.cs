@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExchangeRateTracker.Common.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using TrueCodeTestTask.Common.Data;
 
 // Build configuration
 var configuration = new ConfigurationBuilder()
@@ -15,8 +15,8 @@ var services = new ServiceCollection();
 services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection")
-        ?? "Host=localhost;Database=truecodedb;Username=postgres;Password=postgres123";
-    options.UseNpgsql(connectionString, b => b.MigrationsAssembly("TrueCodeTestTask.DatabaseMigration"));
+        ?? "Host=localhost;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123";
+    options.UseNpgsql(connectionString, b => b.MigrationsAssembly("ExchangeRateTracker.DatabaseMigration"));
 });
 
 services.AddLogging(builder => builder.AddConsole());

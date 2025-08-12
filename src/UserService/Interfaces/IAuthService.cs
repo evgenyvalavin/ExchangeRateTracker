@@ -1,7 +1,7 @@
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.Common.Models;
+using ExchangeRateTracker.Common.DTOs;
+using ExchangeRateTracker.Common.Models;
 
-namespace TrueCodeTestTask.UserService.Interfaces;
+namespace ExchangeRateTracker.UserService.Interfaces;
 
 public interface IAuthService
 {

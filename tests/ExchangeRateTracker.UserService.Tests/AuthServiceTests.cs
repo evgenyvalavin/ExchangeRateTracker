@@ -1,12 +1,12 @@
+using ExchangeRateTracker.Common.Interfaces;
+using ExchangeRateTracker.Common.Models;
+using ExchangeRateTracker.UserService.Interfaces;
+using ExchangeRateTracker.UserService.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.Common.Interfaces;
-using TrueCodeTestTask.Common.Models;
-using TrueCodeTestTask.UserService.Interfaces;
-using TrueCodeTestTask.UserService.Services;
+using ExchangeRateTracker.Common.DTOs;
 
-namespace TrueCodeTestTask.UserService.Tests;
+namespace ExchangeRateTracker.UserService.Tests;
 
 public class AuthServiceTests
 {

@@ -1,8 +1,8 @@
+using ExchangeRateTracker.Common.Services;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using TrueCodeTestTask.Common.Services;
 
-namespace TrueCodeTestTask.UserService.Tests;
+namespace ExchangeRateTracker.UserService.Tests;
 
 public class JwtServiceTests
 {
@@ -17,9 +17,9 @@ public class JwtServiceTests
         _mockConfiguration.Setup(x => x["JWT:SecretKey"])
             .Returns("your-super-secret-jwt-key-here-make-it-long-and-secure");
         _mockConfiguration.Setup(x => x["JWT:Issuer"])
-            .Returns("TrueCodeTestTask");
+            .Returns("ExchangeRateTracker");
         _mockConfiguration.Setup(x => x["JWT:Audience"])
-            .Returns("TrueCodeTestTask");
+            .Returns("ExchangeRateTracker");
 
         _jwtService = new JwtService(_mockConfiguration.Object);
     }

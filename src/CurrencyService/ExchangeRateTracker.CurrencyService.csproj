@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-TrueCodeTestTask.CurrencyService-22835aa8-33cc-4bb6-9848-04565a9756d4</UserSecretsId>
+    <UserSecretsId>dotnet-ExchangeRateTracker.CurrencyService-22835aa8-33cc-4bb6-9848-04565a9756d4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\TrueCodeTestTask.Common.csproj" />
+    <ProjectReference Include="..\Common\ExchangeRateTracker.Common.csproj" />
   </ItemGroup>
 </Project>

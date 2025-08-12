@@ -1,6 +1,6 @@
-using TrueCodeTestTask.Common.Models;
+using ExchangeRateTracker.Common.Models;
 
-namespace TrueCodeTestTask.FinanceService.Interfaces;
+namespace ExchangeRateTracker.FinanceService.Interfaces;
 
 public interface ICurrencyRepository
 {

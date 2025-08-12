@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace TrueCodeTestTask.ApiGateway.Services;
+namespace ExchangeRateTracker.ApiGateway.Services;
 
 public class ProxyService(HttpClient httpClient, ILogger<ProxyService> logger)
 {

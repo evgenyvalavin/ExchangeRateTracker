@@ -1,11 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ExchangeRateTracker.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using TrueCodeTestTask.Common.Interfaces;
 
-namespace TrueCodeTestTask.Common.Services;
+namespace ExchangeRateTracker.Common.Services;
 
 public class JwtService : IJwtService
 {
@@ -63,7 +63,7 @@ public class JwtService : IJwtService
                 ValidAudience = _audience,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
+            }, out var validatedToken);
 
             return true;
         }

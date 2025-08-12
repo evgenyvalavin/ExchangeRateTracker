@@ -1,7 +1,7 @@
+using ExchangeRateTracker.Common.Models;
 using Microsoft.EntityFrameworkCore;
-using TrueCodeTestTask.Common.Models;
 
-namespace TrueCodeTestTask.Common.Data;
+namespace ExchangeRateTracker.Common.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {

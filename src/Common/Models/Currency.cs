@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TrueCodeTestTask.Common.Models;
+namespace ExchangeRateTracker.Common.Models;
 
 public class Currency
 {

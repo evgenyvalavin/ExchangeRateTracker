@@ -1,10 +1,10 @@
+using ExchangeRateTracker.Common.Interfaces;
+using ExchangeRateTracker.UserService.Interfaces;
 using Grpc.Core;
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.Common.Grpc;
-using TrueCodeTestTask.Common.Interfaces;
-using TrueCodeTestTask.UserService.Interfaces;
+using ExchangeRateTracker.Common.DTOs;
+using ExchangeRateTracker.Common.Grpc;
 
-namespace TrueCodeTestTask.UserService.Grpc;
+namespace ExchangeRateTracker.UserService.Grpc;
 
 public class AuthGrpcService(IAuthService authService, IJwtService jwtService, ILogger<AuthGrpcService> logger) : AuthService.AuthServiceBase
 {

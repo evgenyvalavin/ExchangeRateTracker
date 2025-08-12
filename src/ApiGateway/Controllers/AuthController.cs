@@ -1,8 +1,8 @@
+using ExchangeRateTracker.ApiGateway.Services;
+using ExchangeRateTracker.Common.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using TrueCodeTestTask.ApiGateway.Services;
-using TrueCodeTestTask.Common.DTOs;
 
-namespace TrueCodeTestTask.ApiGateway.Controllers;
+namespace ExchangeRateTracker.ApiGateway.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

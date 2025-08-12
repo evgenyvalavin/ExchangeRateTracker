@@ -1,9 +1,9 @@
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.Common.Interfaces;
-using TrueCodeTestTask.Common.Models;
-using TrueCodeTestTask.UserService.Interfaces;
+using ExchangeRateTracker.Common.DTOs;
+using ExchangeRateTracker.Common.Interfaces;
+using ExchangeRateTracker.Common.Models;
+using ExchangeRateTracker.UserService.Interfaces;
 
-namespace TrueCodeTestTask.UserService.Services;
+namespace ExchangeRateTracker.UserService.Services;
 
 public class AuthService(
     IUserRepository userRepository,

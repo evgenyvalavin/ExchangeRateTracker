@@ -1,7 +1,7 @@
-using TrueCodeTestTask.Common.DTOs;
-using TrueCodeTestTask.FinanceService.Interfaces;
+using ExchangeRateTracker.FinanceService.Interfaces;
+using ExchangeRateTracker.Common.DTOs;
 
-namespace TrueCodeTestTask.FinanceService.Services;
+namespace ExchangeRateTracker.FinanceService.Services;
 
 public class CurrencyService(
     ICurrencyRepository currencyRepository,

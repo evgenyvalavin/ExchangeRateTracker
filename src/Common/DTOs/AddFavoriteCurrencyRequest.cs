@@ -1,4 +1,4 @@
-namespace TrueCodeTestTask.Common.DTOs;
+namespace ExchangeRateTracker.Common.DTOs;
 
 public class AddFavoriteCurrencyRequest
 {

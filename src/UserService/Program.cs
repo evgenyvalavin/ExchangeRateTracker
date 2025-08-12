@@ -1,14 +1,14 @@
 using System.Text;
+using ExchangeRateTracker.Common.Data;
+using ExchangeRateTracker.Common.Interfaces;
+using ExchangeRateTracker.Common.Services;
+using ExchangeRateTracker.UserService.Grpc;
+using ExchangeRateTracker.UserService.Interfaces;
+using ExchangeRateTracker.UserService.Repositories;
+using ExchangeRateTracker.UserService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using TrueCodeTestTask.Common.Data;
-using TrueCodeTestTask.Common.Interfaces;
-using TrueCodeTestTask.Common.Services;
-using TrueCodeTestTask.UserService.Grpc;
-using TrueCodeTestTask.UserService.Interfaces;
-using TrueCodeTestTask.UserService.Repositories;
-using TrueCodeTestTask.UserService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Host=localhost;Database=truecodedb;Username=postgres;Password=postgres123";
+        ?? "Host=localhost;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123";
     options.UseNpgsql(connectionString);
 });
 
@@ -33,8 +33,8 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 // Add JWT authentication
 var jwtSecretKey = builder.Configuration["JWT:SecretKey"] ?? "your-super-secret-jwt-key-here-make-it-long-and-secure";
-var jwtIssuer = builder.Configuration["JWT:Issuer"] ?? "TrueCodeTestTask";
-var jwtAudience = builder.Configuration["JWT:Audience"] ?? "TrueCodeTestTask";
+var jwtIssuer = builder.Configuration["JWT:Issuer"] ?? "ExchangeRateTracker";
+var jwtAudience = builder.Configuration["JWT:Audience"] ?? "ExchangeRateTracker";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

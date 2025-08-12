@@ -1,4 +1,4 @@
-namespace TrueCodeTestTask.Common.Interfaces;
+namespace ExchangeRateTracker.Common.Interfaces;
 
 public interface IJwtService
 {

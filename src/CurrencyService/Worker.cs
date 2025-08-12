@@ -1,6 +1,6 @@
-using TrueCodeTestTask.CurrencyService.Services;
+using ExchangeRateTracker.CurrencyService.Services;
 
-namespace TrueCodeTestTask.CurrencyService;
+namespace ExchangeRateTracker.CurrencyService;
 
 public class Worker(ILogger<Worker> logger, IServiceProvider serviceProvider) : BackgroundService
 {

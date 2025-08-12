@@ -1,5 +1,5 @@
-using TrueCodeTestTask.ApiGateway.Services;
-using TrueCodeTestTask.Common.Extensions;
+using ExchangeRateTracker.ApiGateway.Services;
+using ExchangeRateTracker.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

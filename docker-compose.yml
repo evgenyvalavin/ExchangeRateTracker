@@ -3,9 +3,9 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: truecode-postgres
+    container_name: exchangeratetracker-postgres
     environment:
-      POSTGRES_DB: truecodedb
+      POSTGRES_DB: exchangeratetrackerdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
@@ -13,7 +13,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - truecode-network
+      - exchangeratetracker-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -25,44 +25,44 @@ services:
     build:
       context: .
       dockerfile: src/DatabaseMigration/Dockerfile
-    container_name: truecode-db-migration
+    container_name: exchangeratetracker-db-migration
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - truecode-network
+      - exchangeratetracker-network
 
   currency-service:
     build:
       context: .
       dockerfile: src/CurrencyService/Dockerfile
-    container_name: truecode-currency-service
+    container_name: exchangeratetracker-currency-service
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123
     depends_on:
       - database-migration
     networks:
-      - truecode-network
+      - exchangeratetracker-network
 
   user-service:
     build:
       context: .
       dockerfile: src/UserService/Dockerfile
-    container_name: truecode-user-service
+    container_name: exchangeratetracker-user-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123
       - JWT__SecretKey=your-super-secret-jwt-key-here-make-it-long-and-secure
-      - JWT__Issuer=TrueCodeTestTask
-      - JWT__Audience=TrueCodeTestTask
+      - JWT__Issuer=ExchangeRateTracker
+      - JWT__Audience=ExchangeRateTracker
     ports:
       - "8081:8080"
     depends_on:
       - database-migration
     networks:
-      - truecode-network
+      - exchangeratetracker-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
@@ -73,19 +73,19 @@ services:
     build:
       context: .
       dockerfile: src/FinanceService/Dockerfile
-    container_name: truecode-finance-service
+    container_name: exchangeratetracker-finance-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=truecodedb;Username=postgres;Password=postgres123
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123
       - JWT__SecretKey=your-super-secret-jwt-key-here-make-it-long-and-secure
-      - JWT__Issuer=TrueCodeTestTask
-      - JWT__Audience=TrueCodeTestTask
+      - JWT__Issuer=ExchangeRateTracker
+      - JWT__Audience=ExchangeRateTracker
     ports:
       - "8082:8080"
     depends_on:
       - database-migration
     networks:
-      - truecode-network
+      - exchangeratetracker-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
@@ -96,26 +96,26 @@ services:
     build:
       context: .
       dockerfile: src/ApiGateway/Dockerfile
-    container_name: truecode-api-gateway
+    container_name: exchangeratetracker-api-gateway
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - UserService__BaseUrl=http://user-service:8080
       - FinanceService__BaseUrl=http://finance-service:8080
       - CurrencyService__BaseUrl=http://currency-service:8080
       - JWT__SecretKey=your-super-secret-jwt-key-here-make-it-long-and-secure
-      - JWT__Issuer=TrueCodeTestTask
-      - JWT__Audience=TrueCodeTestTask
+      - JWT__Issuer=ExchangeRateTracker
+      - JWT__Audience=ExchangeRateTracker
     ports:
       - "8080:8080"
     depends_on:
       - user-service
       - finance-service
     networks:
-      - truecode-network
+      - exchangeratetracker-network
 
 volumes:
   postgres_data:
 
 networks:
-  truecode-network:
+  exchangeratetracker-network:
     driver: bridge

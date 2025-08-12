@@ -1,8 +1,8 @@
+using ExchangeRateTracker.Common.Data;
+using ExchangeRateTracker.CurrencyService;
+using ExchangeRateTracker.CurrencyService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using TrueCodeTestTask.Common.Data;
-using TrueCodeTestTask.CurrencyService;
-using TrueCodeTestTask.CurrencyService.Services;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -13,7 +13,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Host=localhost;Database=truecodedb;Username=postgres;Password=postgres123";
+        ?? "Host=localhost;Database=exchangeratetrackerdb;Username=postgres;Password=postgres123";
     options.UseNpgsql(connectionString);
 });
 

@@ -1,6 +1,6 @@
-using TrueCodeTestTask.Common.DTOs;
+using ExchangeRateTracker.Common.DTOs;
 
-namespace TrueCodeTestTask.FinanceService.Interfaces;
+namespace ExchangeRateTracker.FinanceService.Interfaces;
 
 public interface ICurrencyService
 {

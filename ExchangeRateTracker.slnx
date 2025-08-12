@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="src">
+    <Folder Name="Common">
+      <Project Path="src\Common\ExchangeRateTracker.Common.csproj" />
+    </Folder>
+    <Folder Name="DatabaseMigration">
+      <Project Path="src\DatabaseMigration\ExchangeRateTracker.DatabaseMigration.csproj" />
+    </Folder>
+    <Folder Name="Services">
+      <Project Path="src\CurrencyService\ExchangeRateTracker.CurrencyService.csproj" />
+      <Project Path="src\UserService\ExchangeRateTracker.UserService.csproj" />
+      <Project Path="src\FinanceService\ExchangeRateTracker.FinanceService.csproj" />
+      <Project Path="src\ApiGateway\ExchangeRateTracker.ApiGateway.csproj" />
+    </Folder>
+  </Folder>
+  <Folder Name="tests">
+    <Project Path="tests\ExchangeRateTracker.UserService.Tests\ExchangeRateTracker.UserService.Tests.csproj" />
+    <Project Path="tests\ExchangeRateTracker.FinanceService.Tests\ExchangeRateTracker.FinanceService.Tests.csproj" />
+  </Folder>
+  <Properties>
+    <Property Name="Configuration.Default" Value="Debug" />
+    <Property Name="Platform.Default" Value="Any CPU" />
+  </Properties>
+</Solution>

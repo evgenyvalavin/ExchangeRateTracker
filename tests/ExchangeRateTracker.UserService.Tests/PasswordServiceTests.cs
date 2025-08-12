@@ -1,6 +1,6 @@
-using TrueCodeTestTask.UserService.Services;
+using ExchangeRateTracker.UserService.Services;
 
-namespace TrueCodeTestTask.UserService.Tests;
+namespace ExchangeRateTracker.UserService.Tests;
 
 public class PasswordServiceTests
 {

@@ -1,10 +1,10 @@
+using ExchangeRateTracker.Common.Models;
+using ExchangeRateTracker.FinanceService.Interfaces;
+using ExchangeRateTracker.FinanceService.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using TrueCodeTestTask.Common.Models;
-using TrueCodeTestTask.FinanceService.Interfaces;
-using TrueCodeTestTask.FinanceService.Services;
 
-namespace TrueCodeTestTask.FinanceService.Tests;
+namespace ExchangeRateTracker.FinanceService.Tests;
 
 public class CurrencyServiceTests
 {
